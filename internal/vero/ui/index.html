@@ -302,6 +302,57 @@ a{color:var(--primary-bright);font-weight:600}
   .grid-2{grid-template-columns:1fr}
   .share-row{grid-template-columns:1fr}
 }
+
+/* Modal / dialog */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(26,28,25,.45);z-index:50;
+  display:flex;align-items:flex-end;justify-content:center;padding:1rem;
+  backdrop-filter:blur(4px)
+}
+@media(min-width:520px){
+  .modal-backdrop{align-items:center}
+}
+.modal{
+  background:var(--surface);border-radius:var(--radius);width:100%;max-width:420px;
+  max-height:min(88dvh,640px);overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:var(--shadow-lg);border:1px solid var(--border)
+}
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  padding:1rem 1.15rem;border-bottom:1px solid var(--border)
+}
+.modal-head h3{margin:0;font-size:1.05rem;font-weight:800}
+.modal-body{padding:1rem 1.15rem;overflow-y:auto;flex:1}
+.modal-foot{
+  padding:0.85rem 1.15rem 1.1rem;border-top:1px solid var(--border);
+  display:flex;gap:.55rem
+}
+.modal-foot .btn{flex:1}
+.day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.35rem;margin:.5rem 0 .85rem}
+.day-chip{
+  border:1.5px solid var(--border-strong);background:var(--surface);border-radius:12px;
+  padding:.55rem .2rem;font-size:.72rem;font-weight:700;cursor:pointer;color:var(--muted);text-align:center
+}
+.day-chip.on{background:var(--primary-soft);border-color:var(--primary-bright);color:var(--primary)}
+.preset-row{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0 .75rem}
+.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.picker-btn{
+  width:100%;text-align:left;padding:.9rem 1rem;border-radius:var(--radius-sm);
+  border:1.5px solid var(--border-strong);background:var(--surface);cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;color:var(--text);font-weight:600
+}
+.picker-btn .val{color:var(--text)}
+.picker-btn .ph{color:var(--hint);font-weight:500}
+.picker-btn .chev{color:var(--hint);font-size:.85rem}
+.cur-list{max-height:280px;overflow-y:auto;margin-top:.5rem}
+.cur-item{
+  display:flex;align-items:center;gap:.65rem;width:100%;border:none;background:transparent;
+  padding:.7rem .5rem;cursor:pointer;text-align:left;border-radius:10px;color:var(--text)
+}
+.cur-item:hover,.cur-item.on{background:var(--primary-soft)}
+.cur-item .code{font-weight:800;min-width:3.2rem;color:var(--primary)}
+.cur-item .name{flex:1;font-size:.88rem;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -397,7 +448,11 @@ a{color:var(--primary-bright);font-weight:600}
         </div>
         <div class="field-hint">Elige el prefijo y escribe solo tu número</div>
         <label>Horario de atención</label>
-        <input id="bHours" placeholder="Lun–Sáb 9:00–18:00"/>
+        <input type="hidden" id="bHours" value=""/>
+        <button type="button" class="picker-btn" id="bHoursBtn" onclick="openHoursModal('b')">
+          <span class="ph" id="bHoursLabel">Elegir días y horario</span>
+          <span class="chev">▾</span>
+        </button>
       </div>
 
       <button class="btn btn-primary" style="margin-top:1.15rem" onclick="createBiz()">Publicar mi Vero</button>
@@ -486,7 +541,11 @@ a{color:var(--primary-bright);font-weight:600}
             </div>
           </div>
           <label>Horario</label>
-          <input id="eHours" placeholder="Lun–Sáb 9:00–18:00"/>
+          <input type="hidden" id="eHours" value=""/>
+          <button type="button" class="picker-btn" id="eHoursBtn" onclick="openHoursModal('e')">
+            <span class="ph" id="eHoursLabel">Elegir días y horario</span>
+            <span class="chev">▾</span>
+          </button>
           <label>Bio</label>
           <textarea id="eBio" rows="2" placeholder="Descripción corta"></textarea>
           <button class="btn btn-primary" style="margin-top:1rem" onclick="saveProfile()">Guardar cambios</button>
@@ -501,7 +560,14 @@ a{color:var(--primary-bright);font-weight:600}
         <label>Nombre del producto</label><input id="pTitle" placeholder="Combo familiar"/>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
           <div><label>Precio</label><input id="pPrice" type="number" step="0.01" value="25"/></div>
-          <div><label>Moneda</label><input id="pCur" value="USD"/></div>
+          <div>
+            <label>Moneda</label>
+            <input type="hidden" id="pCur" value="USD"/>
+            <button type="button" class="picker-btn" id="pCurBtn" onclick="openCurrencyModal()">
+              <span class="val" id="pCurLabel">USD · Dólar estadounidense</span>
+              <span class="chev">▾</span>
+            </button>
+          </div>
         </div>
         <label>Foto</label>
         <div class="upload" id="photoBox">
@@ -561,6 +627,66 @@ a{color:var(--primary-bright);font-weight:600}
   </div>
   <p class="muted" style="text-align:center;font-size:.72rem;padding:.25rem .5rem 0">Perfil público · Solo contacto y reseñas</p>
 </div>
+
+<div id="hoursModal" class="modal-backdrop hidden" onclick="if(event.target===this)closeHoursModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="hoursModalTitle">
+    <div class="modal-head">
+      <h3 id="hoursModalTitle">Horario de atención</h3>
+      <button type="button" class="btn btn-ghost" style="width:auto;padding:.4rem .7rem" onclick="closeHoursModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-hint" style="margin-top:0">Atajos</div>
+      <div class="preset-row">
+        <button type="button" class="chip" onclick="hoursPreset('lv')">Lun–Vie</button>
+        <button type="button" class="chip" onclick="hoursPreset('ls')">Lun–Sáb</button>
+        <button type="button" class="chip" onclick="hoursPreset('all')">Todos los días</button>
+        <button type="button" class="chip" onclick="hoursPreset('clear')">Limpiar</button>
+      </div>
+      <div class="field-hint">Días</div>
+      <div class="day-grid" id="hoursDays">
+        <button type="button" class="day-chip" data-d="Lun">L</button>
+        <button type="button" class="day-chip" data-d="Mar">M</button>
+        <button type="button" class="day-chip" data-d="Mié">X</button>
+        <button type="button" class="day-chip" data-d="Jue">J</button>
+        <button type="button" class="day-chip" data-d="Vie">V</button>
+        <button type="button" class="day-chip" data-d="Sáb">S</button>
+        <button type="button" class="day-chip" data-d="Dom">D</button>
+      </div>
+      <div class="time-grid">
+        <div>
+          <label>Abre</label>
+          <input type="time" id="hoursOpen" value="09:00"/>
+        </div>
+        <div>
+          <label>Cierra</label>
+          <input type="time" id="hoursClose" value="18:00"/>
+        </div>
+      </div>
+      <div class="field-hint" style="margin-top:.75rem">Vista previa: <strong id="hoursPreview">—</strong></div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-ghost" onclick="closeHoursModal()">Cancelar</button>
+      <button type="button" class="btn btn-primary" onclick="applyHoursModal()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div id="currencyModal" class="modal-backdrop hidden" onclick="if(event.target===this)closeCurrencyModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="currencyModalTitle">
+    <div class="modal-head">
+      <h3 id="currencyModalTitle">Moneda</h3>
+      <button type="button" class="btn btn-ghost" style="width:auto;padding:.4rem .7rem" onclick="closeCurrencyModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="search" id="currencySearch" placeholder="Buscar moneda o país…" oninput="filterCurrencies(this.value)" autocomplete="off"/>
+      <div class="cur-list" id="currencyList"></div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-ghost" onclick="closeCurrencyModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <script>
 const SK='vero_token';
@@ -663,6 +789,173 @@ function bindCatChips(rowId, hiddenId, customWrapId){
 }
 bindCatChips('catChips','bCat','bCatCustomWrap');
 bindCatChips('eCatChips','eCat','eCatCustomWrap');
+
+/* ---- Hours modal ---- */
+let hoursTarget='b';
+const DAY_ORDER=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+function selectedDays(){
+  return [...document.querySelectorAll('#hoursDays .day-chip.on')].map(b=>b.dataset.d);
+}
+function formatHoursStr(days, open, close){
+  if(!days.length) return '';
+  // compress ranges
+  const idx=days.map(d=>DAY_ORDER.indexOf(d)).filter(i=>i>=0).sort((a,b)=>a-b);
+  const ranges=[];
+  let start=idx[0], prev=idx[0];
+  for(let i=1;i<idx.length;i++){
+    if(idx[i]===prev+1){prev=idx[i];continue}
+    ranges.push(start===prev?DAY_ORDER[start]:DAY_ORDER[start]+'–'+DAY_ORDER[prev]);
+    start=prev=idx[i];
+  }
+  ranges.push(start===prev?DAY_ORDER[start]:DAY_ORDER[start]+'–'+DAY_ORDER[prev]);
+  const t=(open&&close)?` ${open}–${close}`:'';
+  return ranges.join(', ')+t;
+}
+function updateHoursPreview(){
+  const s=formatHoursStr(selectedDays(), hoursOpen.value, hoursClose.value);
+  hoursPreview.textContent=s||'—';
+}
+document.getElementById('hoursDays')?.querySelectorAll('.day-chip').forEach(b=>{
+  b.addEventListener('click',()=>{b.classList.toggle('on');updateHoursPreview()});
+});
+['hoursOpen','hoursClose'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('change',updateHoursPreview);
+  document.getElementById(id)?.addEventListener('input',updateHoursPreview);
+});
+function hoursPreset(kind){
+  const chips=[...document.querySelectorAll('#hoursDays .day-chip')];
+  chips.forEach(c=>c.classList.remove('on'));
+  if(kind==='clear'){updateHoursPreview();return}
+  const set=kind==='lv'?['Lun','Mar','Mié','Jue','Vie']:kind==='ls'?['Lun','Mar','Mié','Jue','Vie','Sáb']:DAY_ORDER;
+  chips.forEach(c=>{if(set.includes(c.dataset.d))c.classList.add('on')});
+  updateHoursPreview();
+}
+function parseHoursToModal(str){
+  document.querySelectorAll('#hoursDays .day-chip').forEach(c=>c.classList.remove('on'));
+  hoursOpen.value='09:00';hoursClose.value='18:00';
+  if(!str){updateHoursPreview();return}
+  // try match times HH:MM–HH:MM or H:MM-H:MM
+  const tm=str.match(/(\d{1,2}:\d{2})\s*[–\-]\s*(\d{1,2}:\d{2})/);
+  if(tm){hoursOpen.value=tm[1].padStart(5,'0');hoursClose.value=tm[2].padStart(5,'0')}
+  DAY_ORDER.forEach(d=>{
+    if(str.includes(d)) document.querySelector('#hoursDays .day-chip[data-d="'+d+'"]')?.classList.add('on');
+  });
+  // ranges like Lun–Vie
+  const range=str.match(/(Lun|Mar|Mié|Jue|Vie|Sáb|Dom)\s*[–\-]\s*(Lun|Mar|Mié|Jue|Vie|Sáb|Dom)/);
+  if(range){
+    const a=DAY_ORDER.indexOf(range[1]), b=DAY_ORDER.indexOf(range[2]);
+    if(a>=0&&b>=0){
+      for(let i=Math.min(a,b);i<=Math.max(a,b);i++){
+        document.querySelector('#hoursDays .day-chip[data-d="'+DAY_ORDER[i]+'"]')?.classList.add('on');
+      }
+    }
+  }
+  updateHoursPreview();
+}
+function setHoursUI(prefix, value){
+  const hid=document.getElementById(prefix+'Hours');
+  const lab=document.getElementById(prefix+'HoursLabel');
+  if(hid)hid.value=value||'';
+  if(lab){
+    if(value){lab.textContent=value;lab.classList.remove('ph');lab.classList.add('val')}
+    else{lab.textContent='Elegir días y horario';lab.classList.add('ph');lab.classList.remove('val')}
+  }
+}
+function openHoursModal(prefix){
+  hoursTarget=prefix;
+  parseHoursToModal(document.getElementById(prefix+'Hours')?.value||'');
+  hoursModal.classList.remove('hidden');
+}
+function closeHoursModal(){hoursModal.classList.add('hidden')}
+function applyHoursModal(){
+  const s=formatHoursStr(selectedDays(), hoursOpen.value, hoursClose.value);
+  setHoursUI(hoursTarget, s);
+  closeHoursModal();
+}
+
+/* ---- Currency modal ---- */
+const CURRENCIES=[
+  {c:'USD',n:'Dólar estadounidense'},{c:'EUR',n:'Euro'},{c:'GBP',n:'Libra esterlina'},
+  {c:'JPY',n:'Yen japonés'},{c:'CNY',n:'Yuan chino'},{c:'CHF',n:'Franco suizo'},
+  {c:'CAD',n:'Dólar canadiense'},{c:'AUD',n:'Dólar australiano'},{c:'NZD',n:'Dólar neozelandés'},
+  {c:'MXN',n:'Peso mexicano'},{c:'BRL',n:'Real brasileño'},{c:'ARS',n:'Peso argentino'},
+  {c:'CLP',n:'Peso chileno'},{c:'COP',n:'Peso colombiano'},{c:'PEN',n:'Sol peruano'},
+  {c:'UYU',n:'Peso uruguayo'},{c:'PYG',n:'Guaraní paraguayo'},{c:'BOB',n:'Boliviano'},
+  {c:'VES',n:'Bolívar venezolano'},{c:'CRC',n:'Colón costarricense'},{c:'GTQ',n:'Quetzal guatemalteco'},
+  {c:'HNL',n:'Lempira hondureño'},{c:'NIO',n:'Córdoba nicaragüense'},{c:'PAB',n:'Balboa panameño'},
+  {c:'DOP',n:'Peso dominicano'},{c:'CUP',n:'Peso cubano'},{c:'CUC',n:'Peso convertible cubano'},
+  {c:'HTG',n:'Gourde haitiano'},{c:'JMD',n:'Dólar jamaiquino'},{c:'TTD',n:'Dólar de Trinidad'},
+  {c:'BSD',n:'Dólar bahameño'},{c:'BBD',n:'Dólar de Barbados'},{c:'BZD',n:'Dólar beliceño'},
+  {c:'SEK',n:'Corona sueca'},{c:'NOK',n:'Corona noruega'},{c:'DKK',n:'Corona danesa'},
+  {c:'PLN',n:'Zloty polaco'},{c:'CZK',n:'Corona checa'},{c:'HUF',n:'Forinto húngaro'},
+  {c:'RON',n:'Leu rumano'},{c:'BGN',n:'Lev búlgaro'},{c:'HRK',n:'Kuna croata'},
+  {c:'RUB',n:'Rublo ruso'},{c:'UAH',n:'Grivna ucraniana'},{c:'TRY',n:'Lira turca'},
+  {c:'ILS',n:'Nuevo séquel israelí'},{c:'SAR',n:'Riyal saudí'},{c:'AED',n:'Dirham de EAU'},
+  {c:'QAR',n:'Riyal catarí'},{c:'KWD',n:'Dinar kuwaití'},{c:'BHD',n:'Dinar bareiní'},
+  {c:'OMR',n:'Rial omaní'},{c:'JOD',n:'Dinar jordano'},{c:'EGP',n:'Libra egipcia'},
+  {c:'MAD',n:'Dírham marroquí'},{c:'TND',n:'Dinar tunecino'},{c:'DZD',n:'Dinar argelino'},
+  {c:'ZAR',n:'Rand sudafricano'},{c:'NGN',n:'Naira nigeriana'},{c:'GHS',n:'Cedi ghanés'},
+  {c:'KES',n:'Chelín keniano'},{c:'UGX',n:'Chelín ugandés'},{c:'TZS',n:'Chelín tanzano'},
+  {c:'ETB',n:'Birr etíope'},{c:'AOA',n:'Kwanza angoleño'},{c:'MZN',n:'Metical mozambiqueño'},
+  {c:'INR',n:'Rupia india'},{c:'PKR',n:'Rupia pakistaní'},{c:'BDT',n:'Taka bangladesí'},
+  {c:'LKR',n:'Rupia de Sri Lanka'},{c:'NPR',n:'Rupia nepalí'},{c:'IDR',n:'Rupia indonesia'},
+  {c:'MYR',n:'Ringgit malayo'},{c:'SGD',n:'Dólar de Singapur'},{c:'THB',n:'Baht tailandés'},
+  {c:'VND',n:'Dong vietnamita'},{c:'PHP',n:'Peso filipino'},{c:'KRW',n:'Won surcoreano'},
+  {c:'HKD',n:'Dólar de Hong Kong'},{c:'TWD',n:'Dólar taiwanés'},{c:'MOP',n:'Pataca de Macao'},
+  {c:'KHR',n:'Riel camboyano'},{c:'LAK',n:'Kip laosiano'},{c:'MMK',n:'Kyat birmano'},
+  {c:'KZT',n:'Tenge kazajo'},{c:'UZS',n:'Som uzbeko'},{c:'GEL',n:'Lari georgiano'},
+  {c:'AMD',n:'Dram armenio'},{c:'AZN',n:'Manat azerbaiyano'},
+  {c:'XOF',n:'Franco CFA BCEAO'},{c:'XAF',n:'Franco CFA BEAC'},{c:'XCD',n:'Dólar del Caribe Oriental'},
+  {c:'ISK',n:'Corona islandesa'},{c:'RSD',n:'Dinar serbio'},{c:'BAM',n:'Marco convertible'},
+  {c:'ALL',n:'Lek albanés'},{c:'MKD',n:'Denar macedonio'},{c:'MDL',n:'Leu moldavo'},
+  {c:'BYN',n:'Rublo bielorruso'},{c:'IRR',n:'Rial iraní'},{c:'IQD',n:'Dinar iraquí'},
+  {c:'LBP',n:'Libra libanesa'},{c:'SYP',n:'Libra siria'},{c:'YER',n:'Rial yemení'},
+  {c:'AFN',n:'Afgani'},{c:'MNT',n:'Tugrik mongol'},{c:'KPW',n:'Won norcoreano'},
+  {c:'FJD',n:'Dólar fiyiano'},{c:'PGK',n:'Kina de Papúa'},{c:'SBD',n:'Dólar de Salomón'},
+  {c:'VUV',n:'Vatu vanuatuense'},{c:'WST',n:'Tala samoano'},{c:'TOP',n:'Paʻanga tongano'},
+  {c:'CVE',n:'Escudo caboverdiano'},{c:'GMD',n:'Dalasi gambiano'},{c:'SLL',n:'Leone de Sierra Leona'},
+  {c:'LRD',n:'Dólar liberiano'},{c:'GNF',n:'Franco guineano'},{c:'XPF',n:'Franco CFP'},
+  {c:'MUR',n:'Rupia mauriciana'},{c:'SCR',n:'Rupia seychellense'},{c:'MVR',n:'Rufiyaa maldiva'},
+  {c:'BND',n:'Dólar de Brunéi'},{c:'KGS',n:'Som kirguís'},{c:'TJS',n:'Somoni tayiko'},
+  {c:'TMT',n:'Manat turcomano'},{c:'SDG',n:'Libra sudanesa'},{c:'SSP',n:'Libra sursudanesa'},
+  {c:'ERN',n:'Nakfa eritreo'},{c:'DJF',n:'Franco yibutiano'},{c:'SOS',n:'Chelín somalí'},
+  {c:'RWF',n:'Franco ruandés'},{c:'BIF',n:'Franco burundés'},{c:'MWK',n:'Kwacha malauí'},
+  {c:'ZMW',n:'Kwacha zambiano'},{c:'BWP',n:'Pula botsuano'},{c:'NAD',n:'Dólar namibio'},
+  {c:'SZL',n:'Lilangeni suazi'},{c:'LSL',n:'Loti lesotense'},{c:'MGA',n:'Ariary malgache'},
+  {c:'KMF',n:'Franco comorense'},{c:'STN',n:'Dobra santotomense'},{c:'MRU',n:'Uguiya mauritana'}
+];
+function renderCurrencies(q){
+  const list=document.getElementById('currencyList');
+  if(!list)return;
+  const qq=(q||'').toLowerCase().trim();
+  const items=CURRENCIES.filter(x=>!qq||x.c.toLowerCase().includes(qq)||x.n.toLowerCase().includes(qq));
+  const cur=pCur.value;
+  list.innerHTML=items.map(x=>`<button type="button" class="cur-item${x.c===cur?' on':''}" onclick="pickCurrency('${x.c}')">
+    <span class="code">${x.c}</span><span class="name">${x.n}</span>
+  </button>`).join('')||'<div class="muted" style="padding:.5rem">Sin resultados</div>';
+}
+function openCurrencyModal(){
+  currencySearch.value='';
+  renderCurrencies('');
+  currencyModal.classList.remove('hidden');
+  setTimeout(()=>currencySearch.focus(),50);
+}
+function closeCurrencyModal(){currencyModal.classList.add('hidden')}
+function filterCurrencies(q){renderCurrencies(q)}
+function pickCurrency(code){
+  const meta=CURRENCIES.find(x=>x.c===code)||{c:code,n:code};
+  pCur.value=meta.c;
+  pCurLabel.textContent=meta.c+' · '+meta.n;
+  pCurLabel.classList.add('val');
+  closeCurrencyModal();
+}
+function setCurrencyUI(code){
+  const meta=CURRENCIES.find(x=>x.c===code)||{c:code||'USD',n:code||'USD'};
+  pCur.value=meta.c;
+  if(pCurLabel) pCurLabel.textContent=meta.c+' · '+meta.n;
+}
+
+
 function setCatChip(rowId, hiddenId, customWrapId, value){
   const row=document.getElementById(rowId);
   const hid=document.getElementById(hiddenId);
@@ -830,7 +1123,7 @@ function fillEditForm(){
   eSlug.value=biz.slug||'';
   setCatChip('eCatChips','eCat','eCatCustomWrap',biz.category||'');
   parsePhoneToUI('e', biz.whatsapp||biz.phone||'');
-  eHours.value=biz.hours||'';
+  setHoursUI('e', biz.hours||'');
   eBio.value=biz.bio||'';
   ePreviewName.textContent=biz.name||'—';
   ePreviewSlug.textContent='/z/'+(biz.slug||'');
