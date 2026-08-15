@@ -207,6 +207,113 @@ label{
 }
 select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394A3B8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.2rem}
 a{color:var(--primary)}
+
+/* Phone dialer */
+.phone-field{position:relative}
+.phone-row{
+  display:flex;align-items:stretch;gap:0;
+  border:1.5px solid var(--border-strong);border-radius:var(--radius-sm);
+  background:var(--surface);overflow:hidden;transition:border .15s,box-shadow .15s
+}
+.phone-row:focus-within{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-dim)}
+.dial-btn{
+  display:flex;align-items:center;gap:.35rem;flex:0 0 auto;
+  border:none;border-right:1.5px solid var(--border-strong);
+  background:var(--surface2);padding:.75rem .7rem;cursor:pointer;
+  font-weight:700;font-size:.88rem;color:var(--text);white-space:nowrap
+}
+.dial-btn .flag{font-size:1.15rem;line-height:1}
+.dial-btn .caret{font-size:.65rem;color:var(--hint);margin-left:.1rem}
+.phone-row input{
+  border:none!important;box-shadow:none!important;border-radius:0;flex:1;min-width:0;
+  padding:.85rem .9rem
+}
+.dial-panel{
+  position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  box-shadow:var(--shadow-lg);max-height:260px;display:flex;flex-direction:column;overflow:hidden
+}
+.dial-panel input{
+  border:none;border-bottom:1px solid var(--border);border-radius:0;
+  padding:.75rem .9rem;font-size:.88rem
+}
+.dial-list{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.dial-item{
+  display:flex;align-items:center;gap:.55rem;width:100%;border:none;background:transparent;
+  padding:.65rem .9rem;cursor:pointer;text-align:left;font-size:.88rem;color:var(--text)
+}
+.dial-item:hover,.dial-item:focus{background:var(--primary-dim)}
+.dial-item .flag{font-size:1.15rem}
+.dial-item .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dial-item .code{color:var(--muted);font-weight:600;font-size:.82rem}
+
+/* Categories */
+.cat-custom{margin-top:.45rem}
+.field-box{
+  background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:.85rem 1rem;margin-top:.35rem
+}
+
+/* Public profile */
+.pub-shell{max-width:480px;margin:0 auto;padding:1rem 1rem 3rem;width:100%}
+.pub-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;margin-bottom:1rem
+}
+.pub-header{
+  text-align:center;padding:1.75rem 1.25rem 1.25rem;
+  background:linear-gradient(180deg,rgba(108,92,231,.08),transparent 70%)
+}
+.pub-logo{
+  width:88px;height:88px;border-radius:24px;object-fit:cover;margin:0 auto .85rem;
+  border:3px solid #fff;box-shadow:var(--shadow);display:none;background:var(--surface2)
+}
+.pub-logo.fallback{
+  display:grid;place-items:center;font-weight:800;font-size:1.8rem;
+  background:var(--primary-dim);color:var(--primary);border:3px solid #fff
+}
+.pub-name{margin:.35rem 0 .25rem;font-size:clamp(1.35rem,4.5vw,1.7rem);font-weight:800;letter-spacing:-.03em;line-height:1.2}
+.pub-meta-row{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin:.75rem 0 .35rem}
+.pub-chip{
+  font-size:.72rem;font-weight:700;padding:.35rem .65rem;border-radius:999px;
+  background:var(--surface2);border:1px solid var(--border);color:var(--muted)
+}
+.pub-chip.accent{background:var(--primary-dim);color:var(--primary);border-color:transparent}
+.pub-bio{font-size:.95rem;color:var(--muted);margin:.75rem auto 0;max-width:36ch;line-height:1.5}
+.pub-actions{padding:0 1.25rem 1.25rem}
+.pub-actions .btn{max-width:100%}
+.pub-body{padding:0 1.15rem 1.15rem}
+.pub-section-title{
+  font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--hint);margin:0 0 .75rem
+}
+.star-pick{display:flex;gap:.35rem;margin:.35rem 0 .65rem}
+.star-pick button{
+  width:40px;height:40px;border-radius:10px;border:1.5px solid var(--border-strong);
+  background:var(--surface);font-size:1.15rem;cursor:pointer;line-height:1
+}
+.star-pick button.on{background:var(--accent-soft);border-color:#FDBA74}
+.review-item{
+  padding:.7rem 0;border-bottom:1px solid var(--border)
+}
+.review-item:last-child{border-bottom:none}
+.catalog-grid{display:grid;gap:.65rem}
+@media(min-width:420px){
+  .catalog-grid.pub-cat{grid-template-columns:1fr 1fr}
+}
+.catalog-card{
+  display:flex;flex-direction:column;gap:.5rem;background:var(--surface2);
+  border-radius:var(--radius-sm);padding:.65rem;border:1px solid var(--border)
+}
+.catalog-card img{width:100%;aspect-ratio:1;border-radius:10px;object-fit:cover;background:#fff}
+.catalog-card .row{display:flex;gap:.65rem;align-items:center}
+.catalog-card .row img{width:72px;height:72px;aspect-ratio:auto;flex-shrink:0}
+@media(max-width:380px){
+  .shell,.pub-shell{padding-left:.85rem;padding-right:.85rem}
+  .grid-2{grid-template-columns:1fr}
+  .share-row{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -245,8 +352,8 @@ a{color:var(--primary)}
     <div class="card" id="createBizCard">
       <h2>Crea tu identidad comercial</h2>
       <p class="muted" style="margin:0 0 .5rem;font-size:.88rem">Completa tu perfil. Luego podrás editarlo cuando quieras.</p>
-      <div class="progress"><i id="progBar" style="width:20%"></i></div>
-      <div class="step-hint" id="stepHint">Identidad · Contacto · Ubicación</div>
+      <div class="progress"><i id="progBar" style="width:25%"></i></div>
+      <div class="step-hint" id="stepHint">Identidad · Contacto</div>
 
       <div class="form-section">
         <div class="form-section-title">1 · Identidad</div>
@@ -256,69 +363,53 @@ a{color:var(--primary)}
             <img id="logoPrev" alt="logo"/>
             <div class="ph" id="logoHint">📷<br/><span style="font-size:.65rem;font-weight:700">Foto</span></div>
           </div>
-          <div class="field-hint">Foto de perfil del negocio (cuadrada queda mejor)</div>
+          <div class="field-hint">Foto de perfil del negocio</div>
         </div>
         <label class="req">Nombre del negocio</label>
-        <input id="bName" placeholder="Ej. Combos El Rápido" oninput="onNameInput()"/>
+        <input id="bName" placeholder="Ej. Combos El Rápido" oninput="onNameInput()" autocomplete="organization"/>
         <label>Enlace público</label>
-        <div class="inline-slug"><span>vero.app/z/</span><input id="bSlug" placeholder="mi-negocio" oninput="updateProg()"/></div>
+        <div class="inline-slug"><span>/z/</span><input id="bSlug" placeholder="mi-negocio" oninput="updateProg()" autocomplete="off"/></div>
         <div class="field-hint">Solo minúsculas, números y guiones</div>
-        <label>Categoría</label>
+        <label class="req">Categoría</label>
         <div class="chip-row" id="catChips">
-          <span class="chip" data-v="Comida">Comida</span>
-          <span class="chip" data-v="Servicios">Servicios</span>
-          <span class="chip" data-v="Moda">Moda</span>
-          <span class="chip" data-v="Belleza">Belleza</span>
-          <span class="chip" data-v="Hogar">Hogar</span>
-          <span class="chip" data-v="Tecnología">Tecnología</span>
-          <span class="chip" data-v="Otro">Otro</span>
+          <span class="chip" data-v="Comida">🍽 Comida</span>
+          <span class="chip" data-v="Servicios">🔧 Servicios</span>
+          <span class="chip" data-v="Moda">👗 Moda</span>
+          <span class="chip" data-v="Belleza">💅 Belleza</span>
+          <span class="chip" data-v="Hogar">🏠 Hogar</span>
+          <span class="chip" data-v="Tecnología">📱 Tecnología</span>
+          <span class="chip" data-v="Salud">💊 Salud</span>
+          <span class="chip" data-v="Educación">📚 Educación</span>
+          <span class="chip" data-v="Otro">✏️ Otra…</span>
         </div>
-        <input id="bCat" placeholder="O escribe tu categoría" style="margin-top:.25rem"/>
+        <input id="bCat" type="hidden" value=""/>
+        <div id="bCatCustomWrap" class="cat-custom hidden">
+          <input id="bCatCustom" placeholder="Escribe tu categoría" oninput="bCat.value=this.value.trim()"/>
+        </div>
         <label>Bio corta</label>
         <textarea id="bBio" rows="2" placeholder="Qué ofreces en una o dos frases"></textarea>
       </div>
 
       <div class="form-section">
         <div class="form-section-title">2 · Contacto</div>
-        <label class="req">WhatsApp / teléfono</label>
-        <input id="bWa" type="tel" inputmode="tel" placeholder="5351234567" oninput="updateProg()"/>
-        <div class="field-hint">Incluye código de país, sin + ni espacios</div>
-        <label>Horario de atención</label>
-        <input id="bHours" placeholder="Lun–Sáb 9:00–18:00"/>
-      </div>
-
-      <div class="form-section">
-        <div class="form-section-title">3 · Ubicación</div>
-        <label class="req">País</label>
-        <select id="bCountry">
-          <option value="">Selecciona país</option>
-          <option>Cuba</option><option>México</option><option>Colombia</option>
-          <option>Argentina</option><option>Chile</option><option>Perú</option>
-          <option>Venezuela</option><option>España</option><option>Estados Unidos</option>
-        </select>
-        <div class="grid-2">
-          <div>
-            <label class="req">Ciudad</label>
-            <input id="bCity" list="cityList" placeholder="La Habana"/>
-            <datalist id="cityList">
-              <option>La Habana</option><option>Ciudad de México</option><option>Bogotá</option>
-              <option>Buenos Aires</option><option>Santiago</option><option>Lima</option>
-              <option>Caracas</option><option>Madrid</option><option>Miami</option>
-            </datalist>
+        <label class="req">WhatsApp</label>
+        <div class="phone-field" id="bPhoneField">
+          <div class="phone-row">
+            <button type="button" class="dial-btn" id="bDialBtn" onclick="toggleDial('b')">
+              <span class="flag" id="bDialFlag">🇨🇺</span>
+              <span id="bDialCode">+53</span>
+              <span class="caret">▾</span>
+            </button>
+            <input id="bWaLocal" type="tel" inputmode="numeric" placeholder="5123 4567" autocomplete="tel-national" oninput="updateProg()"/>
           </div>
-          <div>
-            <label>Zona / barrio</label>
-            <input id="bZone" list="zoneList" placeholder="Vedado"/>
-            <datalist id="zoneList">
-              <option>Centro</option><option>Norte</option><option>Sur</option>
-              <option>Este</option><option>Oeste</option><option>Playa</option>
-              <option>Miramar</option><option>Vedado</option><option>Old Havana</option>
-            </datalist>
+          <div class="dial-panel hidden" id="bDialPanel">
+            <input type="search" id="bDialSearch" placeholder="Buscar país…" oninput="filterDial('b',this.value)" autocomplete="off"/>
+            <div class="dial-list" id="bDialList"></div>
           </div>
         </div>
-        <label>Dirección particular</label>
-        <input id="bAddress" placeholder="Calle, número, referencias…"/>
-        <div class="field-hint">Opcional pero genera más confianza</div>
+        <div class="field-hint">Elige el prefijo y escribe solo tu número</div>
+        <label>Horario de atención</label>
+        <input id="bHours" placeholder="Lun–Sáb 9:00–18:00"/>
       </div>
 
       <button class="btn btn-primary" style="margin-top:1.15rem" onclick="createBiz()">Publicar mi Vero</button>
@@ -375,25 +466,39 @@ a{color:var(--primary)}
           <input id="eName" placeholder="Nombre del negocio"/>
           <label>Enlace (slug)</label>
           <div class="inline-slug"><span>/z/</span><input id="eSlug" placeholder="mi-negocio"/></div>
-          <label>Categoría</label>
-          <input id="eCat" placeholder="Categoría"/>
-          <label class="req">WhatsApp / teléfono</label>
-          <input id="eWa" type="tel" placeholder="5351234567"/>
+          <label class="req">Categoría</label>
+          <div class="chip-row" id="eCatChips">
+            <span class="chip" data-v="Comida">🍽 Comida</span>
+            <span class="chip" data-v="Servicios">🔧 Servicios</span>
+            <span class="chip" data-v="Moda">👗 Moda</span>
+            <span class="chip" data-v="Belleza">💅 Belleza</span>
+            <span class="chip" data-v="Hogar">🏠 Hogar</span>
+            <span class="chip" data-v="Tecnología">📱 Tecnología</span>
+            <span class="chip" data-v="Salud">💊 Salud</span>
+            <span class="chip" data-v="Educación">📚 Educación</span>
+            <span class="chip" data-v="Otro">✏️ Otra…</span>
+          </div>
+          <input id="eCat" type="hidden" value=""/>
+          <div id="eCatCustomWrap" class="cat-custom hidden">
+            <input id="eCatCustom" placeholder="Escribe tu categoría" oninput="eCat.value=this.value.trim()"/>
+          </div>
+          <label class="req">WhatsApp</label>
+          <div class="phone-field" id="ePhoneField">
+            <div class="phone-row">
+              <button type="button" class="dial-btn" id="eDialBtn" onclick="toggleDial('e')">
+                <span class="flag" id="eDialFlag">🇨🇺</span>
+                <span id="eDialCode">+53</span>
+                <span class="caret">▾</span>
+              </button>
+              <input id="eWaLocal" type="tel" inputmode="numeric" placeholder="5123 4567" autocomplete="tel-national"/>
+            </div>
+            <div class="dial-panel hidden" id="eDialPanel">
+              <input type="search" id="eDialSearch" placeholder="Buscar país…" oninput="filterDial('e',this.value)" autocomplete="off"/>
+              <div class="dial-list" id="eDialList"></div>
+            </div>
+          </div>
           <label>Horario</label>
           <input id="eHours" placeholder="Lun–Sáb 9:00–18:00"/>
-          <label class="req">País</label>
-          <select id="eCountry">
-            <option value="">Selecciona país</option>
-            <option>Cuba</option><option>México</option><option>Colombia</option>
-            <option>Argentina</option><option>Chile</option><option>Perú</option>
-            <option>Venezuela</option><option>España</option><option>Estados Unidos</option>
-          </select>
-          <div class="grid-2">
-            <div><label class="req">Ciudad</label><input id="eCity" placeholder="Ciudad"/></div>
-            <div><label>Zona</label><input id="eZone" placeholder="Barrio"/></div>
-          </div>
-          <label>Dirección particular</label>
-          <input id="eAddress" placeholder="Calle, número, referencias…"/>
           <label>Bio</label>
           <textarea id="eBio" rows="2" placeholder="Descripción corta"></textarea>
           <button class="btn btn-primary" style="margin-top:1rem" onclick="saveProfile()">Guardar cambios</button>
@@ -424,36 +529,187 @@ a{color:var(--primary)}
   </div>
 </div>
 
-<div id="pub" class="shell hidden">
-  <div class="pub-hero">
-    <img id="pLogo" alt="" style="display:none;width:72px;height:72px;border-radius:18px;object-fit:cover;margin:0 auto .75rem;border:1px solid rgba(148,163,184,.2)"/>
-    <span class="pill" id="pPill">Vero</span>
-    <h1 id="pName">—</h1>
-    <div class="score" id="pScore">Vero Score —</div>
-    <div class="stars" id="pStars"></div>
-    <p class="muted" id="pMeta"></p>
-    <p class="muted" id="pHours" style="font-size:.82rem;margin:.35rem 0 0"></p>
-    <p class="muted" id="pAddress" style="font-size:.82rem;margin:.25rem 0 0"></p>
-    <p id="pBio" style="font-size:.92rem;margin:.75rem auto 1.1rem;max-width:34ch"></p>
-    <button class="btn btn-wa" style="max-width:280px;margin:0 auto" onclick="contactWA()">Contactar por WhatsApp</button>
-  </div>
-  <div class="card"><h2>Catálogo</h2><div id="pCatalog" class="catalog-grid"></div></div>
-  <div class="card"><h2>Reputación</h2>
-    <div id="pReviews" class="muted">Sin reseñas aún — sé el primero en dejar una nota justa.</div>
-    <div style="margin-top:1rem;border-top:1px solid rgba(148,163,184,.12);padding-top:.85rem">
-      <p class="muted" style="font-size:.82rem;margin:0 0 .5rem">Solo puedes dejar una valoración y reseña. No se puede editar este negocio desde aquí.</p>
-      <label>Valoración (1–5)</label><input id="rRating" type="number" min="1" max="5" value="5"/>
-      <label>Comentario</label><input id="rComment" placeholder="Opcional, breve y honesto"/>
-      <button class="btn btn-secondary" style="margin-top:.65rem" onclick="sendReview()">Enviar reseña</button>
+<div id="pub" class="pub-shell hidden">
+  <div class="pub-card">
+    <div class="pub-header">
+      <img id="pLogo" class="pub-logo" alt=""/>
+      <div id="pLogoFb" class="pub-logo fallback">V</div>
+      <span class="pill" id="pPill">Vero</span>
+      <h1 class="pub-name" id="pName">—</h1>
+      <div class="score" id="pScore">Vero Score —</div>
+      <div class="stars" id="pStars"></div>
+      <div class="pub-meta-row" id="pMeta"></div>
+      <p class="pub-bio" id="pBio"></p>
+    </div>
+    <div class="pub-actions">
+      <button class="btn btn-wa" onclick="contactWA()">Contactar por WhatsApp</button>
     </div>
   </div>
-  <p class="muted" style="text-align:center;font-size:.72rem;padding:0 .5rem">Perfil público de solo lectura · Contacto y reseñas · El Vero Score refleja actividad y reputación.</p>
+  <div class="pub-card">
+    <div class="pub-body">
+      <div class="pub-section-title">Catálogo</div>
+      <div id="pCatalog" class="catalog-grid pub-cat"></div>
+    </div>
+  </div>
+  <div class="pub-card">
+    <div class="pub-body">
+      <div class="pub-section-title">Reputación</div>
+      <div id="pReviews" class="muted">Sin reseñas aún — sé el primero en dejar una nota justa.</div>
+      <div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:.85rem">
+        <label>Tu valoración</label>
+        <div class="star-pick" id="starPick">
+          <button type="button" data-v="1">★</button>
+          <button type="button" data-v="2">★</button>
+          <button type="button" data-v="3">★</button>
+          <button type="button" data-v="4">★</button>
+          <button type="button" data-v="5">★</button>
+        </div>
+        <input type="hidden" id="rRating" value="5"/>
+        <label>Comentario</label>
+        <input id="rComment" placeholder="Opcional, breve y honesto"/>
+        <button class="btn btn-secondary" style="margin-top:.75rem" onclick="sendReview()">Enviar reseña</button>
+      </div>
+    </div>
+  </div>
+  <p class="muted" style="text-align:center;font-size:.72rem;padding:.25rem .5rem 0">Perfil público · Solo contacto y reseñas</p>
 </div>
 <div class="toast" id="toast"></div>
 <script>
 const SK='vero_token';
 let token=localStorage.getItem(SK)||'';
 let me=null,biz=null,pubSlug=null,photoData='';
+
+const DIALS=[
+  {f:'🇨🇺',n:'Cuba',c:'53'},{f:'🇲🇽',n:'México',c:'52'},{f:'🇨🇴',n:'Colombia',c:'57'},
+  {f:'🇦🇷',n:'Argentina',c:'54'},{f:'🇨🇱',n:'Chile',c:'56'},{f:'🇵🇪',n:'Perú',c:'51'},
+  {f:'🇻🇪',n:'Venezuela',c:'58'},{f:'🇪🇸',n:'España',c:'34'},{f:'🇺🇸',n:'Estados Unidos',c:'1'},
+  {f:'🇨🇦',n:'Canadá',c:'1'},{f:'🇧🇷',n:'Brasil',c:'55'},{f:'🇪🇨',n:'Ecuador',c:'593'},
+  {f:'🇧🇴',n:'Bolivia',c:'591'},{f:'🇵🇾',n:'Paraguay',c:'595'},{f:'🇺🇾',n:'Uruguay',c:'598'},
+  {f:'🇵🇦',n:'Panamá',c:'507'},{f:'🇨🇷',n:'Costa Rica',c:'506'},{f:'🇬🇹',n:'Guatemala',c:'502'},
+  {f:'🇭🇳',n:'Honduras',c:'504'},{f:'🇸🇻',n:'El Salvador',c:'503'},{f:'🇳🇮',n:'Nicaragua',c:'505'},
+  {f:'🇩🇴',n:'Rep. Dominicana',c:'1'},{f:'🇵🇷',n:'Puerto Rico',c:'1'},{f:'🇭🇹',n:'Haití',c:'509'},
+  {f:'🇯🇲',n:'Jamaica',c:'1'},{f:'🇹🇹',n:'Trinidad y Tobago',c:'1'},{f:'🇬🇧',n:'Reino Unido',c:'44'},
+  {f:'🇩🇪',n:'Alemania',c:'49'},{f:'🇫🇷',n:'Francia',c:'33'},{f:'🇮🇹',n:'Italia',c:'39'},
+  {f:'🇵🇹',n:'Portugal',c:'351'},{f:'🇳🇱',n:'Países Bajos',c:'31'},{f:'🇧🇪',n:'Bélgica',c:'32'},
+  {f:'🇨🇭',n:'Suiza',c:'41'},{f:'🇦🇹',n:'Austria',c:'43'},{f:'🇸🇪',n:'Suecia',c:'46'},
+  {f:'🇳🇴',n:'Noruega',c:'47'},{f:'🇩🇰',n:'Dinamarca',c:'45'},{f:'🇫🇮',n:'Finlandia',c:'358'},
+  {f:'🇵🇱',n:'Polonia',c:'48'},{f:'🇷🇺',n:'Rusia',c:'7'},{f:'🇺🇦',n:'Ucrania',c:'380'},
+  {f:'🇹🇷',n:'Turquía',c:'90'},{f:'🇮🇱',n:'Israel',c:'972'},{f:'🇦🇪',n:'Emiratos Árabes',c:'971'},
+  {f:'🇸🇦',n:'Arabia Saudita',c:'966'},{f:'🇮🇳',n:'India',c:'91'},{f:'🇨🇳',n:'China',c:'86'},
+  {f:'🇯🇵',n:'Japón',c:'81'},{f:'🇰🇷',n:'Corea del Sur',c:'82'},{f:'🇦🇺',n:'Australia',c:'61'},
+  {f:'🇳🇿',n:'Nueva Zelanda',c:'64'},{f:'🇿🇦',n:'Sudáfrica',c:'27'},{f:'🇳🇬',n:'Nigeria',c:'234'},
+  {f:'🇪🇬',n:'Egipto',c:'20'},{f:'🇲🇦',n:'Marruecos',c:'212'},{f:'🇰🇪',n:'Kenia',c:'254'},
+  {f:'🇵🇭',n:'Filipinas',c:'63'},{f:'🇮🇩',n:'Indonesia',c:'62'},{f:'🇹🇭',n:'Tailandia',c:'66'},
+  {f:'🇻🇳',n:'Vietnam',c:'84'},{f:'🇲🇾',n:'Malasia',c:'60'},{f:'🇸🇬',n:'Singapur',c:'65'},
+  {f:'🇭🇰',n:'Hong Kong',c:'852'},{f:'🇹🇼',n:'Taiwán',c:'886'},{f:'🇵🇰',n:'Pakistán',c:'92'},
+  {f:'🇧🇩',n:'Bangladés',c:'880'},{f:'🇮🇪',n:'Irlanda',c:'353'},{f:'🇬🇷',n:'Grecia',c:'30'},
+  {f:'🇷🇴',n:'Rumanía',c:'40'},{f:'🇭🇺',n:'Hungría',c:'36'},{f:'🇨🇿',n:'Chequia',c:'420'},
+  {f:'🇦🇴',n:'Angola',c:'244'},{f:'🇲🇿',n:'Mozambique',c:'258'},{f:'🇨🇻',n:'Cabo Verde',c:'238'}
+];
+const dialState={b:{c:'53',f:'🇨🇺'},e:{c:'53',f:'🇨🇺'}};
+function renderDialList(prefix,q){
+  const list=document.getElementById(prefix+'DialList');
+  if(!list)return;
+  const qq=(q||'').toLowerCase().trim();
+  const items=DIALS.filter(d=>!qq||d.n.toLowerCase().includes(qq)||('+'+d.c).includes(qq)||d.c.includes(qq));
+  list.innerHTML=items.map(d=>`<button type="button" class="dial-item" onclick="pickDial('${prefix}','${d.c}','${d.f}')">
+    <span class="flag">${d.f}</span><span class="name">${d.n}</span><span class="code">+${d.c}</span>
+  </button>`).join('')||'<div class="muted" style="padding:.75rem">Sin resultados</div>';
+}
+function toggleDial(prefix){
+  const panel=document.getElementById(prefix+'DialPanel');
+  const open=!panel.classList.contains('hidden');
+  document.querySelectorAll('.dial-panel').forEach(p=>p.classList.add('hidden'));
+  if(!open){panel.classList.remove('hidden');renderDialList(prefix,'');const s=document.getElementById(prefix+'DialSearch');if(s){s.value='';s.focus()}}
+}
+function filterDial(prefix,q){renderDialList(prefix,q)}
+function pickDial(prefix,code,flag){
+  dialState[prefix]={c:code,f:flag};
+  document.getElementById(prefix+'DialFlag').textContent=flag;
+  document.getElementById(prefix+'DialCode').textContent='+'+code;
+  document.getElementById(prefix+'DialPanel').classList.add('hidden');
+}
+function fullPhone(prefix){
+  const local=(document.getElementById(prefix+'WaLocal').value||'').replace(/\D/g,'');
+  const code=dialState[prefix].c;
+  if(!local)return '';
+  return code+local;
+}
+function parsePhoneToUI(prefix, full){
+  const digits=(full||'').replace(/\D/g,'');
+  // longest matching dial code
+  let best=null;
+  for(const d of DIALS){
+    if(digits.startsWith(d.c) && (!best || d.c.length>best.c.length)) best=d;
+  }
+  if(best){
+    pickDial(prefix,best.c,best.f);
+    document.getElementById(prefix+'WaLocal').value=digits.slice(best.c.length);
+  }else{
+    document.getElementById(prefix+'WaLocal').value=digits;
+  }
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.phone-field')) document.querySelectorAll('.dial-panel').forEach(p=>p.classList.add('hidden'));
+});
+function bindCatChips(rowId, hiddenId, customWrapId){
+  const row=document.getElementById(rowId);
+  if(!row)return;
+  row.querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+      row.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+      c.classList.add('on');
+      const v=c.dataset.v;
+      const wrap=document.getElementById(customWrapId);
+      const hid=document.getElementById(hiddenId);
+      if(v==='Otro'){
+        wrap.classList.remove('hidden');
+        hid.value=document.getElementById(customWrapId.replace('Wrap','')).value||'';
+        const inp=wrap.querySelector('input'); if(inp)inp.focus();
+      }else{
+        wrap.classList.add('hidden');
+        hid.value=v;
+      }
+    });
+  });
+}
+bindCatChips('catChips','bCat','bCatCustomWrap');
+bindCatChips('eCatChips','eCat','eCatCustomWrap');
+function setCatChip(rowId, hiddenId, customWrapId, value){
+  const row=document.getElementById(rowId);
+  const hid=document.getElementById(hiddenId);
+  const wrap=document.getElementById(customWrapId);
+  hid.value=value||'';
+  let matched=false;
+  row.querySelectorAll('.chip').forEach(c=>{
+    const on=c.dataset.v===value;
+    c.classList.toggle('on',on);
+    if(on) matched=true;
+  });
+  if(value && !matched){
+    const otro=row.querySelector('.chip[data-v="Otro"]');
+    if(otro)otro.classList.add('on');
+    wrap.classList.remove('hidden');
+    const inp=wrap.querySelector('input');
+    if(inp)inp.value=value;
+  }else{
+    wrap.classList.add('hidden');
+  }
+}
+const starPick=document.getElementById('starPick');
+if(starPick){
+  starPick.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const v=b.dataset.v;
+      rRating.value=v;
+      starPick.querySelectorAll('button').forEach(x=>x.classList.toggle('on', +x.dataset.v <= +v));
+    });
+  });
+  // default 5
+  starPick.querySelectorAll('button').forEach(x=>x.classList.add('on'));
+}
+
+
 
 function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
 function headers(){const h={'Content-Type':'application/json'};if(token)h.Authorization='Bearer '+token;return h}
@@ -516,10 +772,10 @@ function updateProg(){
   let n=1;
   if(bName.value.trim())n++;
   if(bSlug.value.trim())n++;
-  if(bWa.value.trim())n++;
-  if(bCountry.value.trim()&&bCity.value.trim())n++;
+  if((bWaLocal.value||'').trim())n++;
+  if((bCat.value||'').trim())n++;
   progBar.style.width=(n/5*100)+'%';
-  const hints=['Identidad del negocio','Elige tu enlace','WhatsApp de contacto','Ubicación','Listo para publicar'];
+  const hints=['Identidad del negocio','Elige tu enlace','WhatsApp de contacto','Categoría','Listo para publicar'];
   stepHint.textContent=hints[Math.min(n-1,4)];
 }
 function onNameInput(){
@@ -530,12 +786,6 @@ function onNameInput(){
   updateProg();
 }
 document.getElementById('bSlug')&&bSlug.addEventListener('input',()=>{bSlug.dataset.touched='1';updateProg()});
-document.querySelectorAll('#catChips .chip').forEach(c=>{
-  c.addEventListener('click',()=>{
-    document.querySelectorAll('#catChips .chip').forEach(x=>x.classList.remove('on'));
-    c.classList.add('on');bCat.value=c.dataset.v;
-  });
-});
 let logoData='';
 async function onLogo(e){
   const f=e.target.files&&e.target.files[0];if(!f)return;
@@ -550,29 +800,24 @@ async function onLogo(e){
   }catch(err){toast('No se pudo procesar la foto')}
 }
 function collectBizBody(prefix){
-  // prefix '' for create (b*), 'e' for edit
-  const g=id=>document.getElementById((prefix||'b')+id);
-  // create uses bName, edit uses eName — map ids
   if(prefix==='e'){
     return {
-      name:eName.value,slug:eSlug.value,whatsapp:eWa.value,phone:eWa.value,
-      category:eCat.value,country:eCountry.value,city:eCity.value,zone:eZone.value,
-      address:eAddress.value,hours:eHours.value,bio:eBio.value,
-      logo_url:editLogoData||''
+      name:eName.value,slug:eSlug.value,whatsapp:fullPhone('e'),phone:fullPhone('e'),
+      category:eCat.value,hours:eHours.value,bio:eBio.value,
+      logo_url:editLogoData||'',country:'',city:'',zone:'',address:''
     };
   }
   return {
-    name:bName.value,slug:bSlug.value,whatsapp:bWa.value,phone:bWa.value,
-    category:bCat.value,country:bCountry.value,city:bCity.value,zone:bZone.value,
-    address:bAddress.value,hours:bHours.value,bio:bBio.value,logo_url:logoData||''
+    name:bName.value,slug:bSlug.value,whatsapp:fullPhone('b'),phone:fullPhone('b'),
+    category:bCat.value,hours:bHours.value,bio:bBio.value,logo_url:logoData||'',
+    country:'',city:'',zone:'',address:''
   };
 }
 async function createBiz(){
   bizErr.textContent='';
   if(!bName.value.trim()){bizErr.textContent='El nombre es obligatorio';return}
-  if(!bWa.value.trim()){bizErr.textContent='El teléfono / WhatsApp es obligatorio';return}
-  if(!bCountry.value){bizErr.textContent='Selecciona un país';return}
-  if(!bCity.value.trim()){bizErr.textContent='Indica la ciudad';return}
+  if(!fullPhone('b')){bizErr.textContent='El WhatsApp es obligatorio';return}
+  if(!(bCat.value||'').trim()){bizErr.textContent='Elige una categoría';return}
   const body=collectBizBody('');
   const res=await j('/api/vero/businesses',{method:'POST',body:JSON.stringify(body)});
   if(!res.ok){bizErr.textContent=(res.data&&res.data.error)||'Error';return}
@@ -595,13 +840,9 @@ function fillEditForm(){
   if(!biz)return;
   eName.value=biz.name||'';
   eSlug.value=biz.slug||'';
-  eCat.value=biz.category||'';
-  eWa.value=biz.whatsapp||biz.phone||'';
+  setCatChip('eCatChips','eCat','eCatCustomWrap',biz.category||'');
+  parsePhoneToUI('e', biz.whatsapp||biz.phone||'');
   eHours.value=biz.hours||'';
-  eCountry.value=biz.country||'';
-  eCity.value=biz.city||'';
-  eZone.value=biz.zone||'';
-  eAddress.value=biz.address||'';
   eBio.value=biz.bio||'';
   ePreviewName.textContent=biz.name||'—';
   ePreviewSlug.textContent='/z/'+(biz.slug||'');
@@ -618,9 +859,8 @@ async function saveProfile(){
   editErr.textContent='';
   if(!biz||!biz.id){editErr.textContent='Negocio no cargado';return}
   if(!eName.value.trim()){editErr.textContent='El nombre es obligatorio';return}
-  if(!eWa.value.trim()){editErr.textContent='El teléfono es obligatorio';return}
-  if(!eCountry.value){editErr.textContent='Selecciona un país';return}
-  if(!eCity.value.trim()){editErr.textContent='Indica la ciudad';return}
+  if(!fullPhone('e')){editErr.textContent='El WhatsApp es obligatorio';return}
+  if(!(eCat.value||'').trim()){editErr.textContent='Elige una categoría';return}
   const body=collectBizBody('e');
   const res=await j('/api/vero/businesses/'+biz.id,{method:'PUT',body:JSON.stringify(body)});
   if(!res.ok){editErr.textContent=(res.data&&res.data.error)||'Error al guardar';return}
@@ -708,17 +948,14 @@ async function showPublic(slug){
   app.classList.add('hidden');
   pub.classList.remove('hidden');
   const res=await j('/api/vero/public/'+encodeURIComponent(slug));
+  const logo=document.getElementById('pLogo');
+  const logoFb=document.getElementById('pLogoFb');
   if(!res.ok){
     pName.textContent='Negocio no encontrado';
-    pPill.textContent='Vero';
-    pScore.textContent='';
-    pStars.textContent='';
-    pMeta.textContent='';
-    pHours.textContent='';
-    pBio.textContent='';
-    pCatalog.innerHTML='';
-    pReviews.innerHTML='';
-    const logo=document.getElementById('pLogo');if(logo)logo.style.display='none';
+    pPill.textContent='Vero';pScore.textContent='';pStars.textContent='';
+    pMeta.innerHTML='';pBio.textContent='';pCatalog.innerHTML='';pReviews.innerHTML='';
+    if(logo)logo.style.display='none';
+    if(logoFb){logoFb.style.display='grid';logoFb.textContent='?'}
     return;
   }
   const b=res.data.business||{};
@@ -728,24 +965,27 @@ async function showPublic(slug){
   pPill.textContent=b.vero_id||'Vero';
   pScore.textContent='Vero Score '+(b.score!=null?b.score:0)+'/100';
   pStars.textContent=b.review_count?('★'.repeat(Math.max(0,Math.min(5,Math.round(b.rating_avg||0))))+' '+(Number(b.rating_avg||0).toFixed(1))+' · '+b.review_count+' reseñas'):'Aún sin reseñas';
-  pMeta.textContent=[b.country,b.city,b.zone,b.category].filter(Boolean).join(' · ');
-  const addrEl=document.getElementById('pAddress'); if(addrEl) addrEl.textContent=b.address||'';
-  pHours.textContent=b.hours?('Horario: '+b.hours):'';
+  const chips=[];
+  if(b.category) chips.push('<span class="pub-chip accent">'+esc(b.category)+'</span>');
+  if(b.hours) chips.push('<span class="pub-chip">🕐 '+esc(b.hours)+'</span>');
+  pMeta.innerHTML=chips.join('');
   pBio.textContent=b.bio||'';
-  const logo=document.getElementById('pLogo');
-  if(logo){
-    if(b.logo_url){logo.src=b.logo_url;logo.style.display='block';}
-    else{logo.removeAttribute('src');logo.style.display='none';}
+  if(logo && logoFb){
+    if(b.logo_url){logo.src=b.logo_url;logo.style.display='block';logoFb.style.display='none';}
+    else{logo.style.display='none';logoFb.style.display='grid';logoFb.textContent=(b.name||'V').slice(0,1).toUpperCase()}
   }
   window.__wa=b.whatsapp||'';
   window.__bname=b.name||'';
   window.__bid=b.id||'';
   window.__slug=b.slug||slug;
   pCatalog.innerHTML=products.length?products.map(p=>`<div class="catalog-card">
-    ${p.photo_url?`<img src="${esc(p.photo_url)}" alt=""/>`:`<div class="thumb" style="width:72px;height:72px"></div>`}
-    <div style="flex:1"><strong>${esc(p.title)}</strong><div style="margin-top:.25rem;font-weight:800;color:var(--primary)">${esc(String(p.price))} ${esc(p.currency||'')}</div></div>
+    <div class="row">
+      ${p.photo_url?`<img src="${esc(p.photo_url)}" alt=""/>`:`<div class="thumb" style="width:72px;height:72px;border-radius:12px;background:var(--surface)"></div>`}
+      <div style="flex:1;min-width:0"><strong style="font-size:.92rem">${esc(p.title)}</strong>
+      <div style="margin-top:.3rem;font-weight:800;color:var(--primary)">${esc(String(p.price))} ${esc(p.currency||'')}</div></div>
+    </div>
   </div>`).join(''):'<div class="muted">Sin productos publicados</div>';
-  pReviews.innerHTML=reviews.length?reviews.slice().reverse().map(r=>`<div style="padding:.45rem 0;border-bottom:1px solid rgba(148,163,184,.1)"><strong>${'★'.repeat(r.rating||0)}</strong> ${esc(r.comment||'')}</div>`).join(''):'Sin reseñas aún — sé el primero en dejar una nota justa.';
+  pReviews.innerHTML=reviews.length?reviews.slice().reverse().map(r=>`<div class="review-item"><strong style="color:#F59E0B">${'★'.repeat(r.rating||0)}</strong> <span style="color:var(--text)">${esc(r.comment||'')}</span></div>`).join(''):'Sin reseñas aún — sé el primero en dejar una nota justa.';
 }
 function contactWA(){
   const phone=(window.__wa||'').replace(/\D/g,'');
