@@ -222,6 +222,7 @@ type ProductInput struct {
 	Title    string  `json:"title"`
 	Price    float64 `json:"price"`
 	Currency string  `json:"currency"`
+	PhotoURL string  `json:"photo_url"`
 	Active   *bool   `json:"active"`
 }
 
@@ -249,7 +250,7 @@ func (s *Service) AddProduct(ownerID, businessID string, in ProductInput) (*Prod
 	}
 	p := Product{
 		ID: rid("prd"), BusinessID: businessID, Title: title, Price: in.Price,
-		Currency: cur, Active: active, Sort: len(list), CreatedAt: time.Now().UTC(),
+		Currency: cur, PhotoURL: strings.TrimSpace(in.PhotoURL), Active: active, Sort: len(list), CreatedAt: time.Now().UTC(),
 	}
 	list = append(list, p)
 	if err := s.store.SetProducts(businessID, list); err != nil {

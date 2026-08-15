@@ -1,117 +1,178 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Vero · Identidad comercial</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#0B1220"/>
+<title>Vero · Tu identidad comercial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#0a0e14;--card:#121a24;--text:#eef3f8;--muted:#8b9aab;--accent:#22d3ee;--accent2:#a78bfa;--ok:#34d399;--wa:#25d366;--border:rgba(148,163,184,.14);--font:DM Sans,system-ui,sans-serif}
-*{box-sizing:border-box}body{margin:0;font-family:var(--font);background:radial-gradient(900px 500px at 0% 0%,rgba(34,211,238,.08),transparent),radial-gradient(800px 400px at 100% 0%,rgba(167,139,250,.07),transparent),var(--bg);color:var(--text);min-height:100vh}
+:root{
+  --bg:#0B1220; --surface:#121A2B; --surface2:#1A2438; --elev:#1E2A42;
+  --text:#F4F7FB; --muted:#94A3B8; --hint:#64748B;
+  --primary:#2DD4BF; --primary-dim:rgba(45,212,191,.14);
+  --accent:#A78BFA; --wa:#25D366; --danger:#FB7185;
+  --radius:22px; --radius-sm:14px;
+  --shadow:0 12px 40px rgba(0,0,0,.35);
+  --font:'Plus Jakarta Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box}html{-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:var(--font);background:
+  radial-gradient(900px 480px at 10% -10%,rgba(45,212,191,.16),transparent 55%),
+  radial-gradient(700px 400px at 100% 0%,rgba(167,139,250,.12),transparent 50%),
+  var(--bg);color:var(--text);min-height:100dvh;line-height:1.45}
 .hidden{display:none!important}
-input,select,button,textarea{font-family:var(--font)}
-input,select,textarea{width:100%;padding:.65rem .8rem;border-radius:10px;border:1px solid var(--border);background:#0c1219;color:var(--text)}
-label{display:block;font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:.5rem 0 .25rem}
-button{border:none;cursor:pointer;font-weight:600;padding:.65rem 1rem;border-radius:10px;background:linear-gradient(135deg,#22d3ee,#06b6d4);color:#083344}
-button.secondary{background:#1a2330;color:var(--text);border:1px solid var(--border)}
-button.wa{background:var(--wa);color:#052e16}
-button.ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
-.shell{max-width:480px;margin:0 auto;padding:1rem 1rem 2.5rem}
-.top{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:1rem}
-.logo{display:flex;align-items:center;gap:.6rem}
-.mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:800;background:linear-gradient(145deg,rgba(34,211,238,.3),rgba(167,139,250,.2));border:1px solid rgba(34,211,238,.35);color:var(--accent)}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.15rem;margin-bottom:1rem}
-.card h2{margin:0 0 .75rem;font-size:1rem}
-.tabs{display:flex;gap:.3rem;background:#0c1219;padding:.3rem;border-radius:12px;margin-bottom:1rem}
-.tabs button{flex:1;background:transparent;color:var(--muted)}
-.tabs button.on{background:#1a2330;color:var(--text)}
-.err{color:#fca5a5;font-size:.82rem;min-height:1.2em;margin-top:.4rem}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
-.stat{text-align:center;background:#0c1219;border-radius:12px;padding:.75rem .4rem;border:1px solid var(--border)}
-.stat .n{font-size:1.25rem;font-weight:700}.stat .l{font-size:.65rem;color:var(--muted);text-transform:uppercase}
-.pill{display:inline-block;font-size:.68rem;font-weight:700;padding:.2rem .5rem;border-radius:999px;background:rgba(34,211,238,.12);color:var(--accent)}
-.prod{display:flex;justify-content:space-between;gap:.5rem;padding:.65rem 0;border-bottom:1px solid var(--border);font-size:.9rem}
+button,input,select,textarea{font:inherit}
+input,select,textarea{
+  width:100%;padding:.85rem 1rem;border-radius:var(--radius-sm);
+  border:1px solid rgba(148,163,184,.18);background:var(--surface2);color:var(--text);outline:none;
+  transition:border .15s,box-shadow .15s}
+input:focus,textarea:focus{border-color:rgba(45,212,191,.55);box-shadow:0 0 0 3px var(--primary-dim)}
+label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin:.65rem 0 .3rem}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+  border:none;cursor:pointer;font-weight:700;padding:.9rem 1.15rem;border-radius:999px;
+  transition:transform .12s,opacity .12s,box-shadow .15s;width:100%}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:linear-gradient(135deg,#2DD4BF,#14B8A6);color:#042F2E;box-shadow:0 8px 24px rgba(45,212,191,.28)}
+.btn-secondary{background:var(--elev);color:var(--text);border:1px solid rgba(148,163,184,.2)}
+.btn-wa{background:var(--wa);color:#052e16;box-shadow:0 8px 24px rgba(37,211,102,.25)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid rgba(148,163,184,.18)}
+.shell{max-width:440px;margin:0 auto;padding:1.1rem 1.1rem 3rem}
+.top{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:1.1rem}
+.brand{display:flex;align-items:center;gap:.7rem}
+.mark{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:800;font-size:1.15rem;
+  background:linear-gradient(145deg,rgba(45,212,191,.35),rgba(167,139,250,.22));
+  border:1px solid rgba(45,212,191,.4);color:var(--primary);box-shadow:0 6px 18px rgba(45,212,191,.15)}
+.card{
+  background:linear-gradient(180deg,rgba(255,255,255,.03),transparent),var(--surface);
+  border:1px solid rgba(148,163,184,.12);border-radius:var(--radius);padding:1.25rem;
+  margin-bottom:1rem;box-shadow:var(--shadow)}
+.card h2{margin:0 0 .85rem;font-size:1.05rem;font-weight:800;letter-spacing:-.02em}
+.hero-copy{text-align:center;padding:1.5rem .4rem 1rem}
+.hero-copy h1{font-size:1.65rem;line-height:1.15;margin:0 0 .6rem;letter-spacing:-.03em}
+.hero-copy p{color:var(--muted);margin:0 auto;max-width:32ch;font-size:.95rem}
+.pill{display:inline-flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:700;
+  padding:.28rem .65rem;border-radius:999px;background:var(--primary-dim);color:var(--primary)}
+.tabs{display:flex;gap:.35rem;background:var(--surface2);padding:.35rem;border-radius:999px;margin-bottom:1rem}
+.tabs button{flex:1;border:none;background:transparent;color:var(--muted);font-weight:700;padding:.65rem;border-radius:999px;cursor:pointer}
+.tabs button.on{background:var(--elev);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.err{color:#FDA4AF;font-size:.82rem;min-height:1.15em;margin-top:.45rem}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}
+.stat{text-align:center;background:var(--surface2);border-radius:var(--radius-sm);padding:.85rem .4rem;border:1px solid rgba(148,163,184,.1)}
+.stat .n{font-size:1.35rem;font-weight:800;letter-spacing:-.03em}.stat .l{font-size:.65rem;color:var(--muted);text-transform:uppercase;font-weight:700}
+.prod{display:flex;gap:.75rem;align-items:center;padding:.75rem 0;border-bottom:1px solid rgba(148,163,184,.1)}
 .prod:last-child{border:none}
-.share-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
-.toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%) translateY(8px);background:#1a2330;border:1px solid var(--border);padding:.65rem 1rem;border-radius:12px;opacity:0;transition:.25s;z-index:20;font-size:.85rem}
+.prod img,.thumb{width:56px;height:56px;border-radius:12px;object-fit:cover;background:var(--surface2);flex-shrink:0}
+.share-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%) translateY(12px);background:var(--elev);
+  border:1px solid rgba(148,163,184,.2);padding:.75rem 1.1rem;border-radius:999px;opacity:0;transition:.25s;z-index:40;font-size:.85rem;font-weight:600;box-shadow:var(--shadow)}
 .toast.show{opacity:1;transform:translateX(-50%)}
-/* Public profile */
-.pub-hero{text-align:center;padding:1.5rem 1rem 1rem}
-.pub-hero h1{margin:.35rem 0;font-size:1.45rem;letter-spacing:-.02em}
-.score{font-size:1.1rem;font-weight:700;color:var(--accent2)}
-.stars{color:#fbbf24;letter-spacing:.05em}
-.muted{color:var(--muted);font-size:.85rem}
-.qr-box{text-align:center;margin:1rem 0}
-.qr-box img{width:160px;height:160px;background:#fff;border-radius:12px;padding:8px}
+.proof{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.proof span{font-size:.72rem;color:var(--hint);background:var(--surface2);padding:.35rem .6rem;border-radius:999px}
+.upload{
+  border:1.5px dashed rgba(148,163,184,.28);border-radius:var(--radius-sm);padding:1rem;text-align:center;
+  cursor:pointer;background:var(--surface2);transition:border .15s,background .15s;position:relative;overflow:hidden}
+.upload:hover{border-color:rgba(45,212,191,.5);background:rgba(45,212,191,.06)}
+.upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upload img{max-width:100%;max-height:140px;border-radius:12px;display:block;margin:0 auto}
+.pub-hero{text-align:center;padding:1.75rem .5rem 1rem}
+.pub-hero h1{margin:.4rem 0;font-size:1.55rem;letter-spacing:-.03em;font-weight:800}
+.score{font-size:1rem;font-weight:800;color:var(--accent);margin-top:.25rem}
+.stars{color:#FBBF24;letter-spacing:.04em;margin:.35rem 0}
+.muted{color:var(--muted);font-size:.88rem}
+.progress{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:1rem 0 .4rem}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));width:0%;transition:width .35s}
+.step-hint{font-size:.78rem;color:var(--hint);text-align:center}
+.qr-box{text-align:center;margin:1rem 0}.qr-box img{width:168px;height:168px;background:#fff;border-radius:16px;padding:10px}
+.catalog-grid{display:grid;gap:.65rem}
+.catalog-card{display:flex;gap:.75rem;background:var(--surface2);border-radius:var(--radius-sm);padding:.75rem;border:1px solid rgba(148,163,184,.1)}
+.catalog-card img{width:72px;height:72px;border-radius:12px;object-fit:cover;background:#0c1219}
+.fab-hint{font-size:.75rem;color:var(--hint);text-align:center;margin-top:.75rem}
 </style>
 </head>
 <body>
 <div id="auth" class="shell">
-  <div class="top"><div class="logo"><div class="mark">V</div><div><strong>Vero</strong><div class="muted" style="font-size:.75rem">Tu identidad comercial</div></div></div></div>
+  <div class="top"><div class="brand"><div class="mark">V</div><div><strong style="font-size:1.05rem">Vero</strong><div class="muted" style="font-size:.75rem">Identidad comercial</div></div></div></div>
+  <div class="hero-copy">
+    <span class="pill">✦ No es otra red social</span>
+    <h1>Tu negocio, listo para compartir en WhatsApp</h1>
+    <p>URL + QR + catálogo + reputación. El cliente te encuentra; tú cierras en el chat de siempre.</p>
+  </div>
   <div class="card">
     <div class="tabs"><button type="button" class="on" id="tLogin" onclick="authTab('login')">Entrar</button><button type="button" id="tReg" onclick="authTab('reg')">Crear cuenta</button></div>
     <div id="loginBox">
-      <label>Email</label><input id="loginEmail" type="email"/>
-      <label>Contraseña</label><input id="loginPass" type="password"/>
-      <button style="width:100%;margin-top:.85rem" onclick="doLogin()">Entrar</button>
+      <label>Email</label><input id="loginEmail" type="email" autocomplete="email" placeholder="tu@email.com"/>
+      <label>Contraseña</label><input id="loginPass" type="password" autocomplete="current-password"/>
+      <button class="btn btn-primary" style="margin-top:1rem" onclick="doLogin()">Entrar a mi Vero</button>
       <div class="err" id="loginErr"></div>
     </div>
     <div id="regBox" class="hidden">
-      <label>Nombre</label><input id="regName"/>
-      <label>Email</label><input id="regEmail" type="email"/>
-      <label>Contraseña</label><input id="regPass" type="password"/>
-      <button style="width:100%;margin-top:.85rem" onclick="doReg()">Crear cuenta</button>
+      <label>Tu nombre</label><input id="regName" placeholder="Cómo te conocen"/>
+      <label>Email</label><input id="regEmail" type="email" autocomplete="email"/>
+      <label>Contraseña</label><input id="regPass" type="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres"/>
+      <button class="btn btn-primary" style="margin-top:1rem" onclick="doReg()">Crear mi Vero gratis</button>
       <div class="err" id="regErr"></div>
     </div>
   </div>
-  <p class="muted" style="text-align:center;font-size:.8rem">No es otra red social. Es la tarjeta comercial que llevas a WhatsApp, Facebook e Instagram.</p>
+  <div class="proof"><span>✓ En minutos</span><span>✓ Link + QR</span><span>✓ WhatsApp listo</span></div>
 </div>
 
 <div id="app" class="shell hidden">
   <div class="top">
-    <div class="logo"><div class="mark">V</div><div><strong id="bizTitle">Vero</strong><div class="muted" id="bizSub" style="font-size:.75rem">Panel</div></div></div>
-    <button class="ghost" style="width:auto" onclick="logout()">Salir</button>
+    <div class="brand"><div class="mark">V</div><div><strong id="bizTitle">Vero</strong><div class="muted" id="bizSub" style="font-size:.75rem">Panel</div></div></div>
+    <button class="btn btn-ghost" style="width:auto;padding:.55rem .9rem" onclick="logout()">Salir</button>
   </div>
   <div id="dash">
     <div class="card" id="createBizCard">
-      <h2>Crea tu Vero</h2>
-      <label>Nombre del negocio</label><input id="bName" placeholder="ABC Combos"/>
-      <label>Enlace (slug)</label><input id="bSlug" placeholder="abc-combos"/>
-      <label>WhatsApp (con código país)</label><input id="bWa" placeholder="5351234567"/>
+      <h2>Publica tu Vero</h2>
+      <p class="muted" style="margin:0 0 .75rem;font-size:.88rem">En pocos pasos tendrás un enlace que puedes pegar en estados, grupos y tarjetas.</p>
+      <div class="progress"><i id="progBar" style="width:25%"></i></div>
+      <div class="step-hint" id="stepHint">Paso 1 · Nombre e identidad</div>
+      <label>Nombre del negocio</label><input id="bName" placeholder="ABC Combos" oninput="updateProg()"/>
+      <label>Enlace corto</label><input id="bSlug" placeholder="abc-combos" oninput="updateProg()"/>
+      <label>WhatsApp (código país)</label><input id="bWa" placeholder="5351234567" oninput="updateProg()"/>
       <label>Categoría</label><input id="bCat" placeholder="Comida / Combos"/>
       <label>Ciudad</label><input id="bCity" placeholder="La Habana"/>
-      <label>Bio</label><textarea id="bBio" rows="2" placeholder="Combos a domicilio…"></textarea>
-      <button style="width:100%;margin-top:.75rem" onclick="createBiz()">Publicar mi Vero</button>
+      <label>Bio corta</label><textarea id="bBio" rows="2" placeholder="Qué ofreces en una frase"></textarea>
+      <button class="btn btn-primary" style="margin-top:.9rem" onclick="createBiz()">Publicar y obtener mi link</button>
       <div class="err" id="bizErr"></div>
     </div>
     <div id="ownerPanel" class="hidden">
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap">
-          <div><span class="pill" id="veroId">VERO-</span>
-            <div style="margin-top:.35rem;font-size:.85rem">Tu enlace</div>
-            <strong id="publicLink" style="word-break:break-all;font-size:.9rem"></strong>
-          </div>
-        </div>
+        <span class="pill" id="veroId">VERO-</span>
+        <div style="margin-top:.55rem;font-size:.8rem;color:var(--muted)">Tu enlace público</div>
+        <strong id="publicLink" style="word-break:break-all;font-size:.95rem"></strong>
         <div class="share-row" style="margin-top:1rem">
-          <button class="secondary" onclick="copyLink()">Copiar enlace</button>
-          <button class="wa" onclick="shareWA()">Compartir WhatsApp</button>
-          <button class="secondary" onclick="showQR()">Ver QR</button>
-          <button class="ghost" onclick="openPublic()">Ver perfil</button>
+          <button class="btn btn-secondary" onclick="copyLink()">Copiar link</button>
+          <button class="btn btn-wa" onclick="shareWA()">WhatsApp</button>
+          <button class="btn btn-secondary" onclick="showQR()">Ver QR</button>
+          <button class="btn btn-ghost" onclick="openPublic()">Ver perfil</button>
         </div>
         <div class="qr-box hidden" id="qrBox"><img id="qrImg" alt="QR"/><p class="muted">Escanea para abrir este Vero</p></div>
+        <p class="fab-hint">Comparte hoy: cada visita y cada clic a WhatsApp se miden aquí.</p>
       </div>
       <div class="card">
-        <h2>Estadísticas</h2>
+        <h2>Tu tracción</h2>
         <div class="stat-row" id="stats"></div>
       </div>
       <div class="card">
         <h2>Catálogo</h2>
-        <label>Producto</label><input id="pTitle" placeholder="Combo familiar"/>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+        <p class="muted" style="margin:0 0 .75rem;font-size:.85rem">Fotos claras = más confianza. Sube una imagen por producto.</p>
+        <label>Nombre del producto</label><input id="pTitle" placeholder="Combo familiar"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem">
           <div><label>Precio</label><input id="pPrice" type="number" step="0.01" value="25"/></div>
           <div><label>Moneda</label><input id="pCur" value="USD"/></div>
         </div>
-        <button style="width:100%;margin-top:.65rem" onclick="addProduct()">Añadir producto</button>
-        <div id="prodList" style="margin-top:.75rem"></div>
+        <label>Foto</label>
+        <div class="upload" id="photoBox">
+          <input type="file" id="pPhoto" accept="image/*" onchange="onPhoto(event)"/>
+          <div id="photoPlaceholder"><div style="font-size:1.6rem;margin-bottom:.35rem">📷</div><div class="muted" style="font-size:.82rem">Toca para subir foto</div></div>
+          <img id="photoPreview" class="hidden" alt="preview"/>
+        </div>
+        <button class="btn btn-primary" style="margin-top:.85rem" onclick="addProduct()">Añadir al catálogo</button>
+        <div id="prodList" style="margin-top:.85rem"></div>
       </div>
     </div>
   </div>
@@ -124,32 +185,38 @@ button.ghost{background:transparent;color:var(--muted);border:1px solid var(--bo
     <div class="score" id="pScore">Vero Score —</div>
     <div class="stars" id="pStars"></div>
     <p class="muted" id="pMeta"></p>
-    <p id="pBio" style="font-size:.9rem;margin:.75rem 0 1rem"></p>
-    <button class="wa" style="width:100%;max-width:280px" onclick="contactWA()">WhatsApp</button>
+    <p id="pBio" style="font-size:.92rem;margin:.75rem auto 1.1rem;max-width:34ch"></p>
+    <button class="btn btn-wa" style="max-width:280px;margin:0 auto" onclick="contactWA()">Contactar por WhatsApp</button>
   </div>
-  <div class="card"><h2>Catálogo</h2><div id="pCatalog"></div></div>
+  <div class="card"><h2>Catálogo</h2><div id="pCatalog" class="catalog-grid"></div></div>
   <div class="card"><h2>Reputación</h2>
-    <div id="pReviews" class="muted">Sin reseñas aún</div>
-    <div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:.75rem">
-      <label>Tu valoración (1-5)</label><input id="rRating" type="number" min="1" max="5" value="5"/>
-      <label>Comentario</label><input id="rComment" placeholder="Opcional"/>
-      <button class="secondary" style="width:100%;margin-top:.5rem" onclick="sendReview()">Enviar reseña</button>
+    <div id="pReviews" class="muted">Sin reseñas aún — sé el primero en dejar una nota justa.</div>
+    <div style="margin-top:1rem;border-top:1px solid rgba(148,163,184,.12);padding-top:.85rem">
+      <label>Valoración (1–5)</label><input id="rRating" type="number" min="1" max="5" value="5"/>
+      <label>Comentario</label><input id="rComment" placeholder="Opcional, breve y honesto"/>
+      <button class="btn btn-secondary" style="margin-top:.65rem" onclick="sendReview()">Enviar reseña</button>
     </div>
   </div>
-  <p class="muted" style="text-align:center;font-size:.72rem">El Vero Score es un indicador de reputación y actividad en Vero, no una garantía de seguridad.</p>
+  <p class="muted" style="text-align:center;font-size:.72rem;padding:0 .5rem">El Vero Score refleja actividad y reputación dentro de Vero; no es una garantía de seguridad.</p>
 </div>
-
 <div class="toast" id="toast"></div>
 <script>
 const SK='vero_token';
 let token=localStorage.getItem(SK)||'';
-let me=null, biz=null, pubSlug=null;
+let me=null,biz=null,pubSlug=null,photoData='';
 
-function toast(m){const t=toast;/*fix*/const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2500)}
-function headers(extra){const h=Object.assign({'Content-Type':'application/json'},extra||{});if(token)h.Authorization='Bearer '+token;return h}
+function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
+function headers(){const h={'Content-Type':'application/json'};if(token)h.Authorization='Bearer '+token;return h}
 async function j(url,opt){opt=opt||{};opt.headers=Object.assign(headers(),opt.headers||{});const r=await fetch(url,opt);const t=await r.text();let d;try{d=JSON.parse(t)}catch{d=t};return{ok:r.ok,data:d,status:r.status}}
+function esc(s){return String(s||'').replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}
 
 function authTab(w){const L=w==='login';tLogin.classList.toggle('on',L);tReg.classList.toggle('on',!L);loginBox.classList.toggle('hidden',!L);regBox.classList.toggle('hidden',L)}
+function updateProg(){
+  let n=1;if(bName.value.trim())n++;if(bSlug.value.trim())n++;if(bWa.value.trim())n++;
+  progBar.style.width=(n/4*100)+'%';
+  const hints=['Paso 1 · Nombre e identidad','Paso 2 · Elige tu enlace','Paso 3 · WhatsApp de contacto','Listo · Publica tu Vero'];
+  stepHint.textContent=hints[Math.min(n-1,3)];
+}
 function route(){
   const boot=sessionStorage.getItem('vero_boot_slug');
   if(boot){sessionStorage.removeItem('vero_boot_slug');if(!location.hash.startsWith('#/p/'))location.hash='#/p/'+boot;}
@@ -162,29 +229,27 @@ async function doReg(){
   regErr.textContent='';
   const res=await j('/api/vero/auth/register',{method:'POST',body:JSON.stringify({name:regName.value,email:regEmail.value,password:regPass.value})});
   if(!res.ok){regErr.textContent=res.data.error||'Error';return}
-  token=res.data.token;localStorage.setItem(SK,token);toast('Cuenta creada');enterApp();
+  token=res.data.token;localStorage.setItem(SK,token);toast('Cuenta lista · crea tu Vero');enterApp();
 }
 async function doLogin(){
   loginErr.textContent='';
   const res=await j('/api/vero/auth/login',{method:'POST',body:JSON.stringify({email:loginEmail.value,password:loginPass.value})});
   if(!res.ok){loginErr.textContent=res.data.error||'Error';return}
-  token=res.data.token;localStorage.setItem(SK,token);toast('Sesión iniciada');enterApp();
+  token=res.data.token;localStorage.setItem(SK,token);toast('Bienvenido de nuevo');enterApp();
 }
 async function logout(){await j('/api/vero/auth/logout',{method:'POST'});token='';localStorage.removeItem(SK);biz=null;location.hash='';route()}
 async function enterApp(){
   const res=await j('/api/vero/auth/me');
   if(!res.ok){token='';localStorage.removeItem(SK);route();return}
-  me=res.data.session;
-  auth.classList.add('hidden');pub.classList.add('hidden');app.classList.remove('hidden');
+  me=res.data.session;auth.classList.add('hidden');pub.classList.add('hidden');app.classList.remove('hidden');
   const list=res.data.businesses||[];
   if(list.length){biz=list[0];showOwner()}else{createBizCard.classList.remove('hidden');ownerPanel.classList.add('hidden')}
 }
 function showOwner(){
   createBizCard.classList.add('hidden');ownerPanel.classList.remove('hidden');
   bizTitle.textContent=biz.name;bizSub.textContent=biz.slug;
-  veroId.textContent=biz.vero_id||biz.zyr_id||'VERO';
-  const link=location.origin+'/z/'+biz.slug;
-  publicLink.textContent=link;
+  veroId.textContent=biz.vero_id||'VERO';
+  publicLink.textContent=location.origin+'/z/'+biz.slug;
   loadStats();loadProducts();
 }
 async function createBiz(){
@@ -192,32 +257,70 @@ async function createBiz(){
   const body={name:bName.value,slug:bSlug.value,whatsapp:bWa.value,phone:bWa.value,category:bCat.value,city:bCity.value,bio:bBio.value};
   const res=await j('/api/vero/businesses',{method:'POST',body:JSON.stringify(body)});
   if(!res.ok){bizErr.textContent=res.data.error||'Error';return}
-  biz=res.data;toast('Tu Vero está publicado');showOwner();
+  biz=res.data;toast('Tu Vero ya está en línea');showOwner();
+}
+
+/** Compress image like Sales Hub style: canvas resize + JPEG data URL */
+function compressImage(file,maxW,quality){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onerror=reject;
+    reader.onload=()=>{
+      const img=new Image();
+      img.onerror=reject;
+      img.onload=()=>{
+        let w=img.width,h=img.height;
+        if(w>maxW){h=Math.round(h*maxW/w);w=maxW}
+        const c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0,w,h);
+        resolve(c.toDataURL('image/jpeg',quality));
+      };
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+async function onPhoto(e){
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  if(!f.type.startsWith('image/')){toast('Solo imágenes');return}
+  try{
+    photoData=await compressImage(f,900,0.72);
+    photoPreview.src=photoData;photoPreview.classList.remove('hidden');
+    photoPlaceholder.classList.add('hidden');
+    toast('Foto lista');
+  }catch(err){toast('No se pudo procesar la foto')}
 }
 async function loadStats(){
   if(!biz)return;
   const res=await j('/api/vero/businesses/'+biz.id+'/stats');
   const s=res.data||{};
-  stats.innerHTML=[['Visitas',s.profile_views],['WhatsApp',s.whatsapp_clicks],['QR',s.qr_scans]].map(([l,n])=>`<div class="stat"><div class="n">${n||0}</div><div class="l">${l}</div></div>`).join('');
+  stats.innerHTML=[['Visitas',s.profile_views],['WhatsApp',s.whatsapp_clicks],['QR',s.qr_scans]]
+    .map(([l,n])=>`<div class="stat"><div class="n">${n||0}</div><div class="l">${l}</div></div>`).join('');
 }
 async function loadProducts(){
   if(!biz)return;
   const res=await j('/api/vero/businesses/'+biz.id+'/products');
   const list=res.data.products||[];
-  prodList.innerHTML=list.length?list.map(p=>`<div class="prod"><div><strong>${esc(p.title)}</strong><div class="muted">${p.price} ${esc(p.currency)}</div></div>
-    <button class="ghost" style="width:auto;padding:.3rem .5rem" onclick="delProd('${p.id}')">Eliminar</button></div>`).join(''):'<div class="muted">Añade tu primer producto</div>';
+  prodList.innerHTML=list.length?list.map(p=>`<div class="prod">
+    ${p.photo_url?`<img src="${p.photo_url}" alt=""/>`:`<div class="thumb"></div>`}
+    <div style="flex:1;min-width:0"><strong>${esc(p.title)}</strong><div class="muted">${p.price} ${esc(p.currency)}</div></div>
+    <button class="btn btn-ghost" style="width:auto;padding:.4rem .65rem" onclick="delProd('${p.id}')">✕</button>
+  </div>`).join(''):'<div class="muted">Aún no hay productos — añade el primero con foto.</div>';
 }
 async function addProduct(){
-  const res=await j('/api/vero/businesses/'+biz.id+'/products',{method:'POST',body:JSON.stringify({title:pTitle.value,price:parseFloat(pPrice.value)||0,currency:pCur.value})});
+  if(!pTitle.value.trim()){toast('Pon un nombre al producto');return}
+  const res=await j('/api/vero/businesses/'+biz.id+'/products',{method:'POST',body:JSON.stringify({
+    title:pTitle.value,price:parseFloat(pPrice.value)||0,currency:pCur.value,photo_url:photoData||''
+  })});
   if(!res.ok){toast(res.data.error||'Error');return}
-  pTitle.value='';loadProducts();toast('Producto añadido');
+  pTitle.value='';photoData='';photoPreview.classList.add('hidden');photoPlaceholder.classList.remove('hidden');
+  pPhoto.value='';loadProducts();toast('Producto en el catálogo');
 }
 async function delProd(id){await j('/api/vero/businesses/'+biz.id+'/products/'+id,{method:'DELETE'});loadProducts()}
-function copyLink(){navigator.clipboard.writeText(publicLink.textContent);toast('Enlace copiado')}
-function shareWA(){const t=encodeURIComponent('Este es mi Vero (identidad comercial): '+publicLink.textContent);window.open('https://wa.me/?text='+t,'_blank');j('/api/vero/track/'+biz.slug+'/business_shared',{method:'POST'})}
+function copyLink(){navigator.clipboard.writeText(publicLink.textContent);toast('Enlace copiado · pégalo en WhatsApp')}
+function shareWA(){const t=encodeURIComponent('Este es mi Vero: '+publicLink.textContent);window.open('https://wa.me/?text='+t,'_blank');j('/api/vero/track/'+biz.slug+'/business_shared',{method:'POST'})}
 function showQR(){qrBox.classList.remove('hidden');qrImg.src='/api/vero/qr/'+encodeURIComponent(biz.slug)+'?t='+Date.now()}
 function openPublic(){location.hash='#/p/'+biz.slug;route()}
-function esc(s){return String(s||'').replace(/[<>&]/g,c=>({ '<':'&lt;','>':'&gt;','&':'&amp;' }[c]))}
 
 async function showPublic(slug){
   pubSlug=slug;auth.classList.add('hidden');app.classList.add('hidden');pub.classList.remove('hidden');
@@ -226,16 +329,19 @@ async function showPublic(slug){
   const b=res.data.business;const products=res.data.products||[];const reviews=res.data.reviews||[];
   pName.textContent=b.name;pPill.textContent=b.vero_id||'Vero';
   pScore.textContent='Vero Score '+b.score+'/100';
-  pStars.textContent=b.review_count?('★'.repeat(Math.round(b.rating_avg||0))+' '+(b.rating_avg||0).toFixed(1)+' · '+b.review_count+' reseñas'):'Sin reseñas aún';
-  pMeta.textContent=[b.city,b.category,b.published?'Activo':''].filter(Boolean).join(' · ');
+  pStars.textContent=b.review_count?('★'.repeat(Math.round(b.rating_avg||0))+' '+(b.rating_avg||0).toFixed(1)+' · '+b.review_count+' reseñas'):'Aún sin reseñas';
+  pMeta.textContent=[b.city,b.category].filter(Boolean).join(' · ');
   pBio.textContent=b.bio||'';
   window.__wa=b.whatsapp;window.__bname=b.name;window.__bid=b.id;
-  pCatalog.innerHTML=products.length?products.map(p=>`<div class="prod"><strong>${esc(p.title)}</strong><span>${p.price} ${esc(p.currency)}</span></div>`).join(''):'<div class="muted">Sin productos publicados</div>';
-  pReviews.innerHTML=reviews.length?reviews.slice().reverse().map(r=>`<div style="padding:.4rem 0;border-bottom:1px solid var(--border)"><strong>${'★'.repeat(r.rating)}</strong> ${esc(r.comment||'')}</div>`).join(''):'Sin reseñas aún';
+  pCatalog.innerHTML=products.length?products.map(p=>`<div class="catalog-card">
+    ${p.photo_url?`<img src="${p.photo_url}" alt=""/>`:`<div class="thumb" style="width:72px;height:72px"></div>`}
+    <div style="flex:1"><strong>${esc(p.title)}</strong><div style="margin-top:.25rem;font-weight:800;color:var(--primary)">${p.price} ${esc(p.currency)}</div></div>
+  </div>`).join(''):'<div class="muted">Sin productos publicados</div>';
+  pReviews.innerHTML=reviews.length?reviews.slice().reverse().map(r=>`<div style="padding:.45rem 0;border-bottom:1px solid rgba(148,163,184,.1)"><strong>${'★'.repeat(r.rating)}</strong> ${esc(r.comment||'')}</div>`).join(''):'Sin reseñas aún — sé el primero en dejar una nota justa.';
 }
 function contactWA(){
   const phone=(window.__wa||'').replace(/\D/g,'');
-  const msg=encodeURIComponent('Hola, vi tu negocio en Vero ('+ (window.__bname||'') +') y estoy interesado.');
+  const msg=encodeURIComponent('Hola, vi tu negocio en Vero ('+(window.__bname||'')+') y estoy interesado.');
   if(pubSlug) j('/api/vero/track/'+pubSlug+'/whatsapp_clicked',{method:'POST'});
   window.open('https://wa.me/'+phone+'?text='+msg,'_blank');
 }
