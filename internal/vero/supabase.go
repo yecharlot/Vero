@@ -153,6 +153,7 @@ type sbBusiness struct {
 	Country           string    `json:"country,omitempty"`
 	City              string    `json:"city,omitempty"`
 	Zone              string    `json:"zone,omitempty"`
+	Address           string    `json:"address,omitempty"`
 	Hours             string    `json:"hours,omitempty"`
 	Bio               string    `json:"bio,omitempty"`
 	LogoURL           string    `json:"logo_url,omitempty"`
@@ -171,7 +172,7 @@ func businessToSB(b Business) sbBusiness {
 		ID: b.ID, VeroID: b.ZyrID, Slug: b.Slug, Name: b.Name,
 		OwnerUserID: b.OwnerUserID, Phone: b.Phone, WhatsApp: b.WhatsApp,
 		Category: b.Category, Country: b.Country, City: b.City, Zone: b.Zone,
-		Hours: b.Hours, Bio: b.Bio, LogoURL: b.LogoURL, Plan: b.Plan,
+		Address: b.Address, Hours: b.Hours, Bio: b.Bio, LogoURL: b.LogoURL, Plan: b.Plan,
 		VerificationLevel: b.VerificationLevel, Published: b.Published,
 		Score: b.Score, ReviewCount: b.ReviewCount, RatingAvg: b.RatingAvg,
 		CreatedAt: b.CreatedAt, UpdatedAt: b.UpdatedAt,
@@ -183,7 +184,7 @@ func sbToBusiness(r sbBusiness) Business {
 		ID: r.ID, ZyrID: r.VeroID, Slug: r.Slug, Name: r.Name,
 		OwnerUserID: r.OwnerUserID, Phone: r.Phone, WhatsApp: r.WhatsApp,
 		Category: r.Category, Country: r.Country, City: r.City, Zone: r.Zone,
-		Hours: r.Hours, Bio: r.Bio, LogoURL: r.LogoURL, Plan: r.Plan,
+		Address: r.Address, Hours: r.Hours, Bio: r.Bio, LogoURL: r.LogoURL, Plan: r.Plan,
 		VerificationLevel: r.VerificationLevel, Published: r.Published,
 		Score: r.Score, ReviewCount: r.ReviewCount, RatingAvg: r.RatingAvg,
 		CreatedAt: r.CreatedAt, UpdatedAt: r.UpdatedAt,

@@ -141,6 +141,7 @@ type CreateBusinessInput struct {
 	Country  string `json:"country"`
 	City     string `json:"city"`
 	Zone     string `json:"zone"`
+	Address  string `json:"address"`
 	Bio      string `json:"bio"`
 	LogoURL  string `json:"logo_url"`
 	Hours    string `json:"hours"`
@@ -171,6 +172,7 @@ func (s *Service) CreateBusiness(ownerID string, in CreateBusinessInput) (*Busin
 		OwnerUserID: ownerID, Phone: strings.TrimSpace(in.Phone), WhatsApp: wa,
 		Category: strings.TrimSpace(in.Category), Country: strings.TrimSpace(in.Country),
 		City: strings.TrimSpace(in.City), Zone: strings.TrimSpace(in.Zone),
+		Address: strings.TrimSpace(in.Address),
 		Bio: strings.TrimSpace(in.Bio), LogoURL: strings.TrimSpace(in.LogoURL),
 		Hours: strings.TrimSpace(in.Hours),
 		VerificationLevel: 0, Plan: "free", Published: true,
@@ -194,32 +196,22 @@ func (s *Service) UpdateBusiness(ownerID string, id string, in CreateBusinessInp
 	if n := strings.TrimSpace(in.Name); n != "" {
 		b.Name = n
 	}
-	if in.Phone != "" {
-		b.Phone = strings.TrimSpace(in.Phone)
+	b.Phone = strings.TrimSpace(in.Phone)
+	wa := strings.TrimSpace(in.WhatsApp)
+	if wa == "" {
+		wa = b.Phone
 	}
-	if in.WhatsApp != "" {
-		b.WhatsApp = strings.TrimSpace(in.WhatsApp)
-	}
-	if in.Category != "" {
-		b.Category = strings.TrimSpace(in.Category)
-	}
-	if in.Country != "" {
-		b.Country = strings.TrimSpace(in.Country)
-	}
-	if in.City != "" {
-		b.City = strings.TrimSpace(in.City)
-	}
-	if in.Zone != "" {
-		b.Zone = strings.TrimSpace(in.Zone)
-	}
-	if in.Bio != "" {
-		b.Bio = strings.TrimSpace(in.Bio)
-	}
+	b.WhatsApp = wa
+	b.Category = strings.TrimSpace(in.Category)
+	b.Country = strings.TrimSpace(in.Country)
+	b.City = strings.TrimSpace(in.City)
+	b.Zone = strings.TrimSpace(in.Zone)
+	// address/bio/hours can be cleared intentionally from the edit form
+	b.Address = strings.TrimSpace(in.Address)
+	b.Bio = strings.TrimSpace(in.Bio)
+	b.Hours = strings.TrimSpace(in.Hours)
 	if in.LogoURL != "" {
 		b.LogoURL = strings.TrimSpace(in.LogoURL)
-	}
-	if in.Hours != "" {
-		b.Hours = strings.TrimSpace(in.Hours)
 	}
 	if in.Slug != "" && strings.ToLower(in.Slug) != b.Slug {
 		slug := strings.ToLower(strings.TrimSpace(in.Slug))

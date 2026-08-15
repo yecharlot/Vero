@@ -90,6 +90,39 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
 .catalog-card{display:flex;gap:.75rem;background:var(--surface2);border-radius:var(--radius-sm);padding:.75rem;border:1px solid rgba(148,163,184,.1)}
 .catalog-card img{width:72px;height:72px;border-radius:12px;object-fit:cover;background:#0c1219}
 .fab-hint{font-size:.75rem;color:var(--hint);text-align:center;margin-top:.75rem}
+
+.form-section{margin-top:1.1rem;padding-top:1rem;border-top:1px solid rgba(148,163,184,.1)}
+.form-section:first-of-type{border-top:none;padding-top:0;margin-top:.35rem}
+.form-section-title{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);margin-bottom:.55rem;display:flex;align-items:center;gap:.4rem}
+.field-hint{font-size:.72rem;color:var(--hint);margin:.25rem 0 .15rem}
+.avatar-up{display:flex;flex-direction:column;align-items:center;gap:.55rem;margin:0 0 1rem}
+.avatar-ring{
+  width:96px;height:96px;border-radius:28px;position:relative;overflow:hidden;cursor:pointer;
+  background:linear-gradient(145deg,rgba(45,212,191,.2),rgba(167,139,250,.15));
+  border:2px dashed rgba(45,212,191,.45);display:grid;place-items:center;
+  transition:border .15s,transform .12s}
+.avatar-ring:hover{border-color:var(--primary);transform:scale(1.02)}
+.avatar-ring img{width:100%;height:100%;object-fit:cover;display:none}
+.avatar-ring .ph{font-size:1.6rem;opacity:.85;text-align:center;line-height:1.2;padding:.4rem}
+.avatar-ring input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.seg{display:flex;gap:.35rem;background:var(--surface2);padding:.3rem;border-radius:999px;margin-bottom:1rem}
+.seg button{flex:1;border:none;background:transparent;color:var(--muted);font-weight:700;font-size:.78rem;padding:.55rem .4rem;border-radius:999px;cursor:pointer}
+.seg button.on{background:var(--elev);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.req::after{content:" *";color:var(--danger)}
+.inline-slug{display:flex;align-items:center;gap:.35rem;background:var(--surface2);border:1px solid rgba(148,163,184,.18);border-radius:var(--radius-sm);padding:0 .75rem}
+.inline-slug span{color:var(--hint);font-size:.82rem;white-space:nowrap}
+.inline-slug input{border:none;background:transparent;padding:.85rem 0}
+.chip-row{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0 .5rem}
+.chip{font-size:.72rem;padding:.35rem .65rem;border-radius:999px;background:var(--surface2);border:1px solid rgba(148,163,184,.15);color:var(--muted);cursor:pointer}
+.chip:hover,.chip.on{border-color:rgba(45,212,191,.5);color:var(--primary);background:var(--primary-dim)}
+.owner-tabs{display:flex;gap:.35rem;margin-bottom:1rem;overflow-x:auto}
+.owner-tabs button{flex:0 0 auto;border:1px solid rgba(148,163,184,.15);background:var(--surface2);color:var(--muted);font-weight:700;font-size:.78rem;padding:.55rem .85rem;border-radius:999px;cursor:pointer}
+.owner-tabs button.on{background:var(--primary-dim);color:var(--primary);border-color:rgba(45,212,191,.35)}
+.profile-preview{display:flex;gap:.85rem;align-items:center;margin-bottom:1rem}
+.profile-preview img{width:64px;height:64px;border-radius:18px;object-fit:cover;background:var(--surface2);border:1px solid rgba(148,163,184,.15)}
+.profile-preview .fallback{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--primary-dim);color:var(--primary);font-weight:800;font-size:1.3rem}
+
 </style>
 </head>
 <body>
@@ -126,47 +159,94 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
   </div>
   <div id="dash">
     <div class="card" id="createBizCard">
-      <h2>Publica tu Vero</h2>
-      <p class="muted" style="margin:0 0 .75rem;font-size:.88rem">En pocos pasos tendrás un enlace que puedes pegar en estados, grupos y tarjetas.</p>
-      <div class="progress"><i id="progBar" style="width:25%"></i></div>
-      <div class="step-hint" id="stepHint">Paso 1 · Nombre e identidad</div>
-      <label>Nombre del negocio</label><input id="bName" placeholder="ABC Combos" oninput="updateProg()"/>
-      <label>Enlace corto</label><input id="bSlug" placeholder="abc-combos" oninput="updateProg()"/>
-      <label>WhatsApp (código país)</label><input id="bWa" placeholder="5351234567" oninput="updateProg()"/>
-      <label>Categoría</label><input id="bCat" placeholder="Comida / Combos"/>
-      <label>País</label>
-      <select id="bCountry">
-        <option value="">Selecciona país</option>
-        <option>Cuba</option><option>México</option><option>Colombia</option>
-        <option>Argentina</option><option>Chile</option><option>Perú</option>
-        <option>Venezuela</option><option>España</option><option>Estados Unidos</option>
-      </select>
-      <label>Ciudad</label>
-      <select id="bCity">
-        <option value="">Selecciona ciudad</option>
-        <option>La Habana</option><option>Ciudad de México</option><option>Bogotá</option>
-        <option>Buenos Aires</option><option>Santiago</option><option>Lima</option>
-        <option>Caracas</option><option>Madrid</option><option>Miami</option>
-      </select>
-      <label>Zona / Barrio</label>
-      <select id="bZone">
-        <option value="">Selecciona zona</option>
-        <option>Centro</option><option>Norte</option><option>Sur</option>
-        <option>Este</option><option>Oeste</option><option>Playa</option>
-        <option>Miramar</option><option>Vedado</option><option>Old Havana</option>
-      </select>
-      <label>Horario</label><input id="bHours" placeholder="Lun-Sáb 9:00-18:00"/>
-      <label>Logo / foto de perfil</label>
-      <div class="upload" id="logoBox">
-        <input type="file" id="bLogo" accept="image/*" onchange="onLogo(event)"/>
-        <span id="logoHint">Toca para subir logo (se comprime)</span>
-        <img id="logoPrev" style="display:none;max-width:80px;max-height:80px;border-radius:12px;margin-top:.5rem"/>
+      <h2>Crea tu identidad comercial</h2>
+      <p class="muted" style="margin:0 0 .5rem;font-size:.88rem">Completa tu perfil. Luego podrás editarlo cuando quieras.</p>
+      <div class="progress"><i id="progBar" style="width:20%"></i></div>
+      <div class="step-hint" id="stepHint">Identidad · Contacto · Ubicación</div>
+
+      <div class="form-section">
+        <div class="form-section-title">1 · Identidad</div>
+        <div class="avatar-up">
+          <div class="avatar-ring" id="logoBox">
+            <input type="file" id="bLogo" accept="image/*" onchange="onLogo(event)"/>
+            <img id="logoPrev" alt="logo"/>
+            <div class="ph" id="logoHint">📷<br/><span style="font-size:.65rem;font-weight:700">Foto</span></div>
+          </div>
+          <div class="field-hint">Foto de perfil del negocio (cuadrada queda mejor)</div>
+        </div>
+        <label class="req">Nombre del negocio</label>
+        <input id="bName" placeholder="Ej. Combos El Rápido" oninput="onNameInput()"/>
+        <label>Enlace público</label>
+        <div class="inline-slug"><span>vero.app/z/</span><input id="bSlug" placeholder="mi-negocio" oninput="updateProg()"/></div>
+        <div class="field-hint">Solo minúsculas, números y guiones</div>
+        <label>Categoría</label>
+        <div class="chip-row" id="catChips">
+          <span class="chip" data-v="Comida">Comida</span>
+          <span class="chip" data-v="Servicios">Servicios</span>
+          <span class="chip" data-v="Moda">Moda</span>
+          <span class="chip" data-v="Belleza">Belleza</span>
+          <span class="chip" data-v="Hogar">Hogar</span>
+          <span class="chip" data-v="Tecnología">Tecnología</span>
+          <span class="chip" data-v="Otro">Otro</span>
+        </div>
+        <input id="bCat" placeholder="O escribe tu categoría" style="margin-top:.25rem"/>
+        <label>Bio corta</label>
+        <textarea id="bBio" rows="2" placeholder="Qué ofreces en una o dos frases"></textarea>
       </div>
-      <label>Bio corta</label><textarea id="bBio" rows="2" placeholder="Qué ofreces en una frase"></textarea>
-      <button class="btn btn-primary" style="margin-top:.9rem" onclick="createBiz()">Publicar y obtener mi link</button>
+
+      <div class="form-section">
+        <div class="form-section-title">2 · Contacto</div>
+        <label class="req">WhatsApp / teléfono</label>
+        <input id="bWa" type="tel" inputmode="tel" placeholder="5351234567" oninput="updateProg()"/>
+        <div class="field-hint">Incluye código de país, sin + ni espacios</div>
+        <label>Horario de atención</label>
+        <input id="bHours" placeholder="Lun–Sáb 9:00–18:00"/>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">3 · Ubicación</div>
+        <label class="req">País</label>
+        <select id="bCountry">
+          <option value="">Selecciona país</option>
+          <option>Cuba</option><option>México</option><option>Colombia</option>
+          <option>Argentina</option><option>Chile</option><option>Perú</option>
+          <option>Venezuela</option><option>España</option><option>Estados Unidos</option>
+        </select>
+        <div class="grid-2">
+          <div>
+            <label class="req">Ciudad</label>
+            <input id="bCity" list="cityList" placeholder="La Habana"/>
+            <datalist id="cityList">
+              <option>La Habana</option><option>Ciudad de México</option><option>Bogotá</option>
+              <option>Buenos Aires</option><option>Santiago</option><option>Lima</option>
+              <option>Caracas</option><option>Madrid</option><option>Miami</option>
+            </datalist>
+          </div>
+          <div>
+            <label>Zona / barrio</label>
+            <input id="bZone" list="zoneList" placeholder="Vedado"/>
+            <datalist id="zoneList">
+              <option>Centro</option><option>Norte</option><option>Sur</option>
+              <option>Este</option><option>Oeste</option><option>Playa</option>
+              <option>Miramar</option><option>Vedado</option><option>Old Havana</option>
+            </datalist>
+          </div>
+        </div>
+        <label>Dirección particular</label>
+        <input id="bAddress" placeholder="Calle, número, referencias…"/>
+        <div class="field-hint">Opcional pero genera más confianza</div>
+      </div>
+
+      <button class="btn btn-primary" style="margin-top:1.15rem" onclick="createBiz()">Publicar mi Vero</button>
       <div class="err" id="bizErr"></div>
     </div>
     <div id="ownerPanel" class="hidden">
+      <div class="owner-tabs" id="ownerTabs">
+        <button type="button" class="on" data-tab="home" onclick="ownerTab('home')">Inicio</button>
+        <button type="button" data-tab="profile" onclick="ownerTab('profile')">Editar perfil</button>
+        <button type="button" data-tab="catalog" onclick="ownerTab('catalog')">Catálogo</button>
+      </div>
+      <div id="tab-home">
       <div class="card">
         <span class="pill" id="veroId">VERO-</span>
         <div style="margin-top:.55rem;font-size:.8rem;color:var(--muted)">Tu enlace público</div>
@@ -185,6 +265,59 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
         <h2>Tu tracción</h2>
         <div class="stat-row" id="stats"></div>
       </div>
+      </div><!-- /tab-home -->
+
+      <div id="tab-profile" class="hidden">
+        <div class="card">
+          <h2>Editar perfil</h2>
+          <p class="muted" style="margin:0 0 .85rem;font-size:.85rem">Los cambios se reflejan al instante en tu enlace público.</p>
+          <div class="profile-preview">
+            <img id="eLogoPrev" class="hidden" alt=""/>
+            <div class="fallback" id="eLogoFb">V</div>
+            <div>
+              <strong id="ePreviewName">—</strong>
+              <div class="muted" style="font-size:.78rem" id="ePreviewSlug"></div>
+            </div>
+          </div>
+          <div class="avatar-up">
+            <div class="avatar-ring" style="width:80px;height:80px;border-radius:22px">
+              <input type="file" id="eLogo" accept="image/*" onchange="onEditLogo(event)"/>
+              <img id="eLogoImg" alt=""/>
+              <div class="ph" id="eLogoHint" style="font-size:1.2rem">📷</div>
+            </div>
+            <div class="field-hint">Cambiar foto de perfil</div>
+          </div>
+          <label class="req">Nombre</label>
+          <input id="eName" placeholder="Nombre del negocio"/>
+          <label>Enlace (slug)</label>
+          <div class="inline-slug"><span>/z/</span><input id="eSlug" placeholder="mi-negocio"/></div>
+          <label>Categoría</label>
+          <input id="eCat" placeholder="Categoría"/>
+          <label class="req">WhatsApp / teléfono</label>
+          <input id="eWa" type="tel" placeholder="5351234567"/>
+          <label>Horario</label>
+          <input id="eHours" placeholder="Lun–Sáb 9:00–18:00"/>
+          <label class="req">País</label>
+          <select id="eCountry">
+            <option value="">Selecciona país</option>
+            <option>Cuba</option><option>México</option><option>Colombia</option>
+            <option>Argentina</option><option>Chile</option><option>Perú</option>
+            <option>Venezuela</option><option>España</option><option>Estados Unidos</option>
+          </select>
+          <div class="grid-2">
+            <div><label class="req">Ciudad</label><input id="eCity" placeholder="Ciudad"/></div>
+            <div><label>Zona</label><input id="eZone" placeholder="Barrio"/></div>
+          </div>
+          <label>Dirección particular</label>
+          <input id="eAddress" placeholder="Calle, número, referencias…"/>
+          <label>Bio</label>
+          <textarea id="eBio" rows="2" placeholder="Descripción corta"></textarea>
+          <button class="btn btn-primary" style="margin-top:1rem" onclick="saveProfile()">Guardar cambios</button>
+          <div class="err" id="editErr"></div>
+        </div>
+      </div>
+
+      <div id="tab-catalog" class="hidden">
       <div class="card">
         <h2>Catálogo</h2>
         <p class="muted" style="margin:0 0 .75rem;font-size:.85rem">Fotos claras = más confianza. Sube una imagen por producto.</p>
@@ -202,6 +335,7 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
         <button class="btn btn-primary" style="margin-top:.85rem" onclick="addProduct()">Añadir al catálogo</button>
         <div id="prodList" style="margin-top:.85rem"></div>
       </div>
+      </div><!-- /tab-catalog -->
     </div>
   </div>
 </div>
@@ -215,6 +349,7 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
     <div class="stars" id="pStars"></div>
     <p class="muted" id="pMeta"></p>
     <p class="muted" id="pHours" style="font-size:.82rem;margin:.35rem 0 0"></p>
+    <p class="muted" id="pAddress" style="font-size:.82rem;margin:.25rem 0 0"></p>
     <p id="pBio" style="font-size:.92rem;margin:.75rem auto 1.1rem;max-width:34ch"></p>
     <button class="btn btn-wa" style="max-width:280px;margin:0 auto" onclick="contactWA()">Contactar por WhatsApp</button>
   </div>
@@ -242,17 +377,11 @@ async function j(url,opt){opt=opt||{};opt.headers=Object.assign(headers(),opt.he
 function esc(s){return String(s||'').replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}
 
 function authTab(w){const L=w==='login';tLogin.classList.toggle('on',L);tReg.classList.toggle('on',!L);loginBox.classList.toggle('hidden',!L);regBox.classList.toggle('hidden',L)}
-function updateProg(){
-  let n=1;if(bName.value.trim())n++;if(bSlug.value.trim())n++;if(bWa.value.trim())n++;
-  progBar.style.width=(n/4*100)+'%';
-  const hints=['Paso 1 · Nombre e identidad','Paso 2 · Elige tu enlace','Paso 3 · WhatsApp de contacto','Listo · Publica tu Vero'];
-  stepHint.textContent=hints[Math.min(n-1,3)];
-}
+
 function route(){
   const boot=sessionStorage.getItem('vero_boot_slug');
   if(boot){sessionStorage.removeItem('vero_boot_slug');if(!location.hash.startsWith('#/p/'))location.hash='#/p/'+boot;}
   const h=location.hash||'';
-  // Perfil público: solo lectura. Nunca mostrar panel de dueño ni formularios de edición.
   if(h.startsWith('#/p/')){
     auth.classList.add('hidden');
     app.classList.add('hidden');
@@ -266,20 +395,20 @@ function route(){
 async function doReg(){
   regErr.textContent='';
   const res=await j('/api/vero/auth/register',{method:'POST',body:JSON.stringify({name:regName.value,email:regEmail.value,password:regPass.value})});
-  if(!res.ok){regErr.textContent=res.data.error||'Error';return}
+  if(!res.ok){regErr.textContent=(res.data&&res.data.error)||'Error';return}
   token=res.data.token;localStorage.setItem(SK,token);toast('Cuenta lista · crea tu Vero');enterApp();
 }
 async function doLogin(){
   loginErr.textContent='';
   const res=await j('/api/vero/auth/login',{method:'POST',body:JSON.stringify({email:loginEmail.value,password:loginPass.value})});
-  if(!res.ok){loginErr.textContent=res.data.error||'Error';return}
+  if(!res.ok){loginErr.textContent=(res.data&&res.data.error)||'Error';return}
   token=res.data.token;localStorage.setItem(SK,token);toast('Bienvenido de nuevo');enterApp();
 }
 async function logout(){await j('/api/vero/auth/logout',{method:'POST'});token='';localStorage.removeItem(SK);biz=null;location.hash='';route()}
 async function deleteAccount(){
   if(!confirm('¿Eliminar tu negocio y cuenta de forma permanente? Esta acción no se puede deshacer.'))return;
   const res=await j('/api/vero/account',{method:'DELETE'});
-  if(!res.ok){toast(res.data.error||'Error al eliminar');return}
+  if(!res.ok){toast((res.data&&res.data.error)||'Error al eliminar');return}
   token='';localStorage.removeItem(SK);biz=null;toast('Cuenta eliminada');location.hash='';route();
 }
 async function enterApp(){
@@ -294,30 +423,137 @@ function showOwner(){
   bizTitle.textContent=biz.name;bizSub.textContent=biz.slug;
   veroId.textContent=biz.vero_id||'VERO';
   publicLink.textContent=location.origin+'/z/'+biz.slug;
+  ownerTab('home');
   loadStats();loadProducts();
 }
+
+
+function updateProg(){
+  let n=1;
+  if(bName.value.trim())n++;
+  if(bSlug.value.trim())n++;
+  if(bWa.value.trim())n++;
+  if(bCountry.value.trim()&&bCity.value.trim())n++;
+  progBar.style.width=(n/5*100)+'%';
+  const hints=['Identidad del negocio','Elige tu enlace','WhatsApp de contacto','Ubicación','Listo para publicar'];
+  stepHint.textContent=hints[Math.min(n-1,4)];
+}
+function onNameInput(){
+  const n=bName.value.trim();
+  if(!bSlug.dataset.touched){
+    bSlug.value=n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+  }
+  updateProg();
+}
+document.getElementById('bSlug')&&bSlug.addEventListener('input',()=>{bSlug.dataset.touched='1';updateProg()});
+document.querySelectorAll('#catChips .chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('#catChips .chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');bCat.value=c.dataset.v;
+  });
+});
 let logoData='';
 async function onLogo(e){
   const f=e.target.files&&e.target.files[0];if(!f)return;
   if(!f.type.startsWith('image/')){toast('Solo imágenes');return}
   try{
-    logoData=await compressImage(f,400,0.7);
+    logoData=await compressImage(f,500,0.72);
     const prev=document.getElementById('logoPrev');
+    const hint=document.getElementById('logoHint');
     prev.src=logoData;prev.style.display='block';
-    document.getElementById('logoHint').textContent='Logo listo';
-    toast('Logo listo');
-  }catch(err){toast('No se pudo procesar el logo')}
+    if(hint)hint.style.display='none';
+    toast('Foto lista');
+  }catch(err){toast('No se pudo procesar la foto')}
+}
+function collectBizBody(prefix){
+  // prefix '' for create (b*), 'e' for edit
+  const g=id=>document.getElementById((prefix||'b')+id);
+  // create uses bName, edit uses eName — map ids
+  if(prefix==='e'){
+    return {
+      name:eName.value,slug:eSlug.value,whatsapp:eWa.value,phone:eWa.value,
+      category:eCat.value,country:eCountry.value,city:eCity.value,zone:eZone.value,
+      address:eAddress.value,hours:eHours.value,bio:eBio.value,
+      logo_url:editLogoData||''
+    };
+  }
+  return {
+    name:bName.value,slug:bSlug.value,whatsapp:bWa.value,phone:bWa.value,
+    category:bCat.value,country:bCountry.value,city:bCity.value,zone:bZone.value,
+    address:bAddress.value,hours:bHours.value,bio:bBio.value,logo_url:logoData||''
+  };
 }
 async function createBiz(){
   bizErr.textContent='';
-  const body={
-    name:bName.value,slug:bSlug.value,whatsapp:bWa.value,phone:bWa.value,
-    category:bCat.value,country:bCountry.value,city:bCity.value,zone:bZone.value,
-    hours:bHours.value,bio:bBio.value,logo_url:logoData||''
-  };
+  if(!bName.value.trim()){bizErr.textContent='El nombre es obligatorio';return}
+  if(!bWa.value.trim()){bizErr.textContent='El teléfono / WhatsApp es obligatorio';return}
+  if(!bCountry.value){bizErr.textContent='Selecciona un país';return}
+  if(!bCity.value.trim()){bizErr.textContent='Indica la ciudad';return}
+  const body=collectBizBody('');
   const res=await j('/api/vero/businesses',{method:'POST',body:JSON.stringify(body)});
-  if(!res.ok){bizErr.textContent=res.data.error||'Error';return}
+  if(!res.ok){bizErr.textContent=(res.data&&res.data.error)||'Error';return}
   biz=res.data;toast('Tu Vero ya está en línea');showOwner();
+}
+let editLogoData='';
+async function onEditLogo(e){
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  if(!f.type.startsWith('image/')){toast('Solo imágenes');return}
+  try{
+    editLogoData=await compressImage(f,500,0.72);
+    eLogoImg.src=editLogoData;eLogoImg.style.display='block';
+    eLogoHint.style.display='none';
+    eLogoPrev.src=editLogoData;eLogoPrev.classList.remove('hidden');
+    eLogoFb.classList.add('hidden');
+    toast('Nueva foto lista');
+  }catch(err){toast('No se pudo procesar')}
+}
+function fillEditForm(){
+  if(!biz)return;
+  eName.value=biz.name||'';
+  eSlug.value=biz.slug||'';
+  eCat.value=biz.category||'';
+  eWa.value=biz.whatsapp||biz.phone||'';
+  eHours.value=biz.hours||'';
+  eCountry.value=biz.country||'';
+  eCity.value=biz.city||'';
+  eZone.value=biz.zone||'';
+  eAddress.value=biz.address||'';
+  eBio.value=biz.bio||'';
+  ePreviewName.textContent=biz.name||'—';
+  ePreviewSlug.textContent='/z/'+(biz.slug||'');
+  editLogoData='';
+  if(biz.logo_url){
+    eLogoPrev.src=biz.logo_url;eLogoPrev.classList.remove('hidden');eLogoFb.classList.add('hidden');
+    eLogoImg.src=biz.logo_url;eLogoImg.style.display='block';eLogoHint.style.display='none';
+  }else{
+    eLogoPrev.classList.add('hidden');eLogoFb.classList.remove('hidden');eLogoFb.textContent=(biz.name||'V').slice(0,1).toUpperCase();
+    eLogoImg.style.display='none';eLogoHint.style.display='block';
+  }
+}
+async function saveProfile(){
+  editErr.textContent='';
+  if(!biz||!biz.id){editErr.textContent='Negocio no cargado';return}
+  if(!eName.value.trim()){editErr.textContent='El nombre es obligatorio';return}
+  if(!eWa.value.trim()){editErr.textContent='El teléfono es obligatorio';return}
+  if(!eCountry.value){editErr.textContent='Selecciona un país';return}
+  if(!eCity.value.trim()){editErr.textContent='Indica la ciudad';return}
+  const body=collectBizBody('e');
+  const res=await j('/api/vero/businesses/'+biz.id,{method:'PUT',body:JSON.stringify(body)});
+  if(!res.ok){editErr.textContent=(res.data&&res.data.error)||'Error al guardar';return}
+  biz=res.data;toast('Perfil actualizado');
+  showOwner();
+  fillEditForm();
+}
+function ownerTab(name){
+  ['home','profile','catalog'].forEach(t=>{
+    const el=document.getElementById('tab-'+t);
+    if(el)el.classList.toggle('hidden',t!==name);
+  });
+  document.querySelectorAll('#ownerTabs button').forEach(b=>{
+    b.classList.toggle('on',b.dataset.tab===name);
+  });
+  if(name==='profile')fillEditForm();
+  if(name==='catalog')loadProducts();
 }
 
 /** Compress image like Sales Hub style: canvas resize + JPEG data URL */
@@ -409,6 +645,7 @@ async function showPublic(slug){
   pScore.textContent='Vero Score '+(b.score!=null?b.score:0)+'/100';
   pStars.textContent=b.review_count?('★'.repeat(Math.max(0,Math.min(5,Math.round(b.rating_avg||0))))+' '+(Number(b.rating_avg||0).toFixed(1))+' · '+b.review_count+' reseñas'):'Aún sin reseñas';
   pMeta.textContent=[b.country,b.city,b.zone,b.category].filter(Boolean).join(' · ');
+  const addrEl=document.getElementById('pAddress'); if(addrEl) addrEl.textContent=b.address||'';
   pHours.textContent=b.hours?('Horario: '+b.hours):'';
   pBio.textContent=b.bio||'';
   const logo=document.getElementById('pLogo');

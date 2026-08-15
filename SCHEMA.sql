@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS vero_businesses (
     country TEXT,
     city TEXT,
     zone TEXT,
+    address TEXT,
     hours TEXT,
     bio TEXT,
     logo_url TEXT,
@@ -89,3 +90,6 @@ CREATE POLICY "Public read reviews" ON vero_reviews FOR SELECT USING (status = '
 CREATE POLICY "Public read stats" ON vero_stats FOR SELECT USING (true);
 
 -- service_role bypasses RLS; app uses SUPABASE_KEY (secret)
+
+-- Si la tabla ya existía sin address:
+ALTER TABLE vero_businesses ADD COLUMN IF NOT EXISTS address TEXT;

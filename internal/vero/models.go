@@ -15,6 +15,7 @@ type Business struct {
 	Country            string    `json:"country,omitempty"`
 	City               string    `json:"city,omitempty"`
 	Zone               string    `json:"zone,omitempty"`
+	Address            string    `json:"address,omitempty"`
 	Bio                string    `json:"bio,omitempty"`
 	LogoURL            string    `json:"logo_url,omitempty"`
 	Hours              string    `json:"hours,omitempty"`
