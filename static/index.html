@@ -208,11 +208,13 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
 
 <div id="pub" class="shell hidden">
   <div class="pub-hero">
+    <img id="pLogo" alt="" style="display:none;width:72px;height:72px;border-radius:18px;object-fit:cover;margin:0 auto .75rem;border:1px solid rgba(148,163,184,.2)"/>
     <span class="pill" id="pPill">Vero</span>
     <h1 id="pName">—</h1>
     <div class="score" id="pScore">Vero Score —</div>
     <div class="stars" id="pStars"></div>
     <p class="muted" id="pMeta"></p>
+    <p class="muted" id="pHours" style="font-size:.82rem;margin:.35rem 0 0"></p>
     <p id="pBio" style="font-size:.92rem;margin:.75rem auto 1.1rem;max-width:34ch"></p>
     <button class="btn btn-wa" style="max-width:280px;margin:0 auto" onclick="contactWA()">Contactar por WhatsApp</button>
   </div>
@@ -220,12 +222,13 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
   <div class="card"><h2>Reputación</h2>
     <div id="pReviews" class="muted">Sin reseñas aún — sé el primero en dejar una nota justa.</div>
     <div style="margin-top:1rem;border-top:1px solid rgba(148,163,184,.12);padding-top:.85rem">
+      <p class="muted" style="font-size:.82rem;margin:0 0 .5rem">Solo puedes dejar una valoración y reseña. No se puede editar este negocio desde aquí.</p>
       <label>Valoración (1–5)</label><input id="rRating" type="number" min="1" max="5" value="5"/>
       <label>Comentario</label><input id="rComment" placeholder="Opcional, breve y honesto"/>
       <button class="btn btn-secondary" style="margin-top:.65rem" onclick="sendReview()">Enviar reseña</button>
     </div>
   </div>
-  <p class="muted" style="text-align:center;font-size:.72rem;padding:0 .5rem">El Vero Score refleja actividad y reputación dentro de Vero; no es una garantía de seguridad.</p>
+  <p class="muted" style="text-align:center;font-size:.72rem;padding:0 .5rem">Perfil público de solo lectura · Contacto y reseñas · El Vero Score refleja actividad y reputación.</p>
 </div>
 <div class="toast" id="toast"></div>
 <script>
@@ -249,7 +252,14 @@ function route(){
   const boot=sessionStorage.getItem('vero_boot_slug');
   if(boot){sessionStorage.removeItem('vero_boot_slug');if(!location.hash.startsWith('#/p/'))location.hash='#/p/'+boot;}
   const h=location.hash||'';
-  if(h.startsWith('#/p/')){showPublic(h.slice(4));return}
+  // Perfil público: solo lectura. Nunca mostrar panel de dueño ni formularios de edición.
+  if(h.startsWith('#/p/')){
+    auth.classList.add('hidden');
+    app.classList.add('hidden');
+    pub.classList.remove('hidden');
+    showPublic(h.slice(4));
+    return;
+  }
   if(token){enterApp();return}
   auth.classList.remove('hidden');app.classList.add('hidden');pub.classList.add('hidden');
 }
@@ -373,33 +383,69 @@ function showQR(){qrBox.classList.remove('hidden');qrImg.src='/api/vero/qr/'+enc
 function openPublic(){location.hash='#/p/'+biz.slug;route()}
 
 async function showPublic(slug){
-  pubSlug=slug;auth.classList.add('hidden');app.classList.add('hidden');pub.classList.remove('hidden');
+  pubSlug=slug;
+  auth.classList.add('hidden');
+  app.classList.add('hidden');
+  pub.classList.remove('hidden');
   const res=await j('/api/vero/public/'+encodeURIComponent(slug));
-  if(!res.ok){pName.textContent='No encontrado';return}
-  const b=res.data.business;const products=res.data.products||[];const reviews=res.data.reviews||[];
-  pName.textContent=b.name;pPill.textContent=b.vero_id||'Vero';
-  pScore.textContent='Vero Score '+b.score+'/100';
-  pStars.textContent=b.review_count?('★'.repeat(Math.round(b.rating_avg||0))+' '+(b.rating_avg||0).toFixed(1)+' · '+b.review_count+' reseñas'):'Aún sin reseñas';
-  pMeta.textContent=[b.city,b.category].filter(Boolean).join(' · ');
+  if(!res.ok){
+    pName.textContent='Negocio no encontrado';
+    pPill.textContent='Vero';
+    pScore.textContent='';
+    pStars.textContent='';
+    pMeta.textContent='';
+    pHours.textContent='';
+    pBio.textContent='';
+    pCatalog.innerHTML='';
+    pReviews.innerHTML='';
+    const logo=document.getElementById('pLogo');if(logo)logo.style.display='none';
+    return;
+  }
+  const b=res.data.business||{};
+  const products=res.data.products||[];
+  const reviews=res.data.reviews||[];
+  pName.textContent=b.name||'—';
+  pPill.textContent=b.vero_id||'Vero';
+  pScore.textContent='Vero Score '+(b.score!=null?b.score:0)+'/100';
+  pStars.textContent=b.review_count?('★'.repeat(Math.max(0,Math.min(5,Math.round(b.rating_avg||0))))+' '+(Number(b.rating_avg||0).toFixed(1))+' · '+b.review_count+' reseñas'):'Aún sin reseñas';
+  pMeta.textContent=[b.country,b.city,b.zone,b.category].filter(Boolean).join(' · ');
+  pHours.textContent=b.hours?('Horario: '+b.hours):'';
   pBio.textContent=b.bio||'';
-  window.__wa=b.whatsapp;window.__bname=b.name;window.__bid=b.id;
+  const logo=document.getElementById('pLogo');
+  if(logo){
+    if(b.logo_url){logo.src=b.logo_url;logo.style.display='block';}
+    else{logo.removeAttribute('src');logo.style.display='none';}
+  }
+  window.__wa=b.whatsapp||'';
+  window.__bname=b.name||'';
+  window.__bid=b.id||'';
+  window.__slug=b.slug||slug;
   pCatalog.innerHTML=products.length?products.map(p=>`<div class="catalog-card">
-    ${p.photo_url?`<img src="${p.photo_url}" alt=""/>`:`<div class="thumb" style="width:72px;height:72px"></div>`}
-    <div style="flex:1"><strong>${esc(p.title)}</strong><div style="margin-top:.25rem;font-weight:800;color:var(--primary)">${p.price} ${esc(p.currency)}</div></div>
+    ${p.photo_url?`<img src="${esc(p.photo_url)}" alt=""/>`:`<div class="thumb" style="width:72px;height:72px"></div>`}
+    <div style="flex:1"><strong>${esc(p.title)}</strong><div style="margin-top:.25rem;font-weight:800;color:var(--primary)">${esc(String(p.price))} ${esc(p.currency||'')}</div></div>
   </div>`).join(''):'<div class="muted">Sin productos publicados</div>';
-  pReviews.innerHTML=reviews.length?reviews.slice().reverse().map(r=>`<div style="padding:.45rem 0;border-bottom:1px solid rgba(148,163,184,.1)"><strong>${'★'.repeat(r.rating)}</strong> ${esc(r.comment||'')}</div>`).join(''):'Sin reseñas aún — sé el primero en dejar una nota justa.';
+  pReviews.innerHTML=reviews.length?reviews.slice().reverse().map(r=>`<div style="padding:.45rem 0;border-bottom:1px solid rgba(148,163,184,.1)"><strong>${'★'.repeat(r.rating||0)}</strong> ${esc(r.comment||'')}</div>`).join(''):'Sin reseñas aún — sé el primero en dejar una nota justa.';
 }
 function contactWA(){
   const phone=(window.__wa||'').replace(/\D/g,'');
+  if(!phone){toast('Este negocio no tiene WhatsApp configurado');return;}
   const msg=encodeURIComponent('Hola, vi tu negocio en Vero ('+(window.__bname||'')+') y estoy interesado.');
-  if(pubSlug) j('/api/vero/track/'+pubSlug+'/whatsapp_clicked',{method:'POST'});
+  if(pubSlug) j('/api/vero/track/'+encodeURIComponent(pubSlug)+'/whatsapp_clicked',{method:'POST'});
   window.open('https://wa.me/'+phone+'?text='+msg,'_blank');
 }
 async function sendReview(){
-  if(!window.__bid)return;
-  const res=await j('/api/vero/businesses/'+window.__bid+'/reviews',{method:'POST',body:JSON.stringify({rating:parseInt(rRating.value,10),comment:rComment.value})});
-  if(!res.ok){toast(res.data.error||'Error');return}
-  toast('Gracias por tu reseña');showPublic(pubSlug);
+  if(!pubSlug){toast('Negocio no válido');return;}
+  const rating=parseInt(rRating.value,10);
+  if(!rating||rating<1||rating>5){toast('Valoración entre 1 y 5');return;}
+  // Endpoint público: no requiere sesión ni permite editar el negocio
+  const res=await j('/api/vero/public/'+encodeURIComponent(pubSlug)+'/reviews',{
+    method:'POST',
+    body:JSON.stringify({rating:rating,comment:rComment.value||''})
+  });
+  if(!res.ok){toast((res.data&&res.data.error)||'Error al enviar reseña');return;}
+  rComment.value='';
+  toast('Gracias por tu reseña');
+  showPublic(pubSlug);
 }
 window.addEventListener('hashchange',route);
 route();
