@@ -45,3 +45,21 @@ Datos en `vero_data/` (o `VERO_DATA_DIR`).
 ## Relación con PrismaTec
 
 PrismaTec puede seguir sirviendo Sales Hub y el runtime Alset. **Vero vive aquí**, en su propio deploy. No hace falta el nodo completo ni Supabase de PrismaTec para el MVP.
+
+
+## Deploy en Render
+
+1. Entra en [dashboard.render.com](https://dashboard.render.com).
+2. **New +** → **Web Service**.
+3. Conecta el repo `yecharlot/Vero`.
+4. Ajustes recomendados:
+   - **Runtime:** Docker (usa el `Dockerfile` del repo)
+   - **Name:** `vero`
+   - **Instance type:** Free
+   - **Health check path:** `/health`
+5. (Opcional) Disco persistente: monta `/var/data` y define `VERO_DATA_DIR=/var/data/vero` para no perder datos al redeploy.
+6. **Create Web Service** y espera el build.
+
+También puedes usar **Blueprint**: New → Blueprint → repo `yecharlot/Vero` (archivo `render.yaml`).
+
+URL típica: `https://vero.onrender.com` (o el nombre que elijas).

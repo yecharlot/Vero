@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: vero
+    runtime: go
+    plan: free
+    region: oregon
+    buildCommand: go build -o vero ./cmd/vero
+    startCommand: ./vero
+    healthCheckPath: /health

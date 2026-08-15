@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: vero
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: VERO_DATA_DIR
+        value: /var/data/vero
+    disk:
+      name: vero-data
+      mountPath: /var/data
+      sizeGB: 1
