@@ -63,3 +63,15 @@ PrismaTec puede seguir sirviendo Sales Hub y el runtime Alset. **Vero vive aquí
 También puedes usar **Blueprint**: New → Blueprint → repo `yecharlot/Vero` (archivo `render.yaml`).
 
 URL típica: `https://vero.onrender.com` (o el nombre que elijas).
+
+
+## Persistencia en GitHub Gist
+
+En Render (plan free el disco se pierde al redeploy). Opcional:
+
+| Variable | Descripción |
+|----------|-------------|
+| `GITHUB_TOKEN` | Token classic con permiso **gist** |
+| `VERO_GIST_ID` | ID del gist (si vacío, se crea uno secreto al primer guardado) |
+
+El estado completo se guarda en el archivo `vero_state.json` del gist (secreto). Sirve como backup durable del MVP; no sustituye una base de datos bajo mucha concurrencia.

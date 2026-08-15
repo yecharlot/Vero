@@ -38,6 +38,11 @@ func NewStore(dataDir string) *Store {
 		stats:    map[string]Stats{},
 	}
 	s.load()
+	// Prefer durable Gist snapshot when configured (GITHUB_TOKEN)
+	if idBytes, err := os.ReadFile(filepath.Join(dir, "gist_id.txt")); err == nil && os.Getenv("VERO_GIST_ID") == "" {
+		_ = os.Setenv("VERO_GIST_ID", string(idBytes))
+	}
+	s.loadFromGist()
 	return s
 }
 
@@ -69,7 +74,12 @@ func (s *Store) saveJSON(name string, v interface{}) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(s.path(name), b, 0600)
+	if err := os.WriteFile(s.path(name), b, 0600); err != nil {
+		return err
+	}
+	// async durable copy
+	go s.saveToGist()
+	return nil
 }
 
 func (s *Store) persistAll() error {
