@@ -123,15 +123,27 @@ func (s *Service) Session(token string) (*Session, bool) {
 
 func (s *Service) Logout(token string) { s.store.DeleteSession(token) }
 
+func (s *Service) DeleteAccount(userID, token string) error {
+	// remove businesses owned by user (and cascade products/reviews/stats via store)
+	for _, b := range s.store.ListByOwner(userID) {
+		_ = s.store.DeleteBusiness(b.ID)
+	}
+	s.store.DeleteSession(token)
+	return s.store.DeleteUser(userID)
+}
+
 type CreateBusinessInput struct {
 	Name     string `json:"name"`
 	Slug     string `json:"slug"`
 	Phone    string `json:"phone"`
 	WhatsApp string `json:"whatsapp"`
 	Category string `json:"category"`
+	Country  string `json:"country"`
 	City     string `json:"city"`
 	Zone     string `json:"zone"`
 	Bio      string `json:"bio"`
+	LogoURL  string `json:"logo_url"`
+	Hours    string `json:"hours"`
 }
 
 func (s *Service) CreateBusiness(ownerID string, in CreateBusinessInput) (*Business, error) {
@@ -157,8 +169,10 @@ func (s *Service) CreateBusiness(ownerID string, in CreateBusinessInput) (*Busin
 	b := Business{
 		ID: rid("biz"), ZyrID: veroPublicID(), Slug: slug, Name: name,
 		OwnerUserID: ownerID, Phone: strings.TrimSpace(in.Phone), WhatsApp: wa,
-		Category: strings.TrimSpace(in.Category), City: strings.TrimSpace(in.City),
-		Zone: strings.TrimSpace(in.Zone), Bio: strings.TrimSpace(in.Bio),
+		Category: strings.TrimSpace(in.Category), Country: strings.TrimSpace(in.Country),
+		City: strings.TrimSpace(in.City), Zone: strings.TrimSpace(in.Zone),
+		Bio: strings.TrimSpace(in.Bio), LogoURL: strings.TrimSpace(in.LogoURL),
+		Hours: strings.TrimSpace(in.Hours),
 		VerificationLevel: 0, Plan: "free", Published: true,
 		Score: 40, CreatedAt: now, UpdatedAt: now,
 	}
@@ -189,6 +203,9 @@ func (s *Service) UpdateBusiness(ownerID string, id string, in CreateBusinessInp
 	if in.Category != "" {
 		b.Category = strings.TrimSpace(in.Category)
 	}
+	if in.Country != "" {
+		b.Country = strings.TrimSpace(in.Country)
+	}
 	if in.City != "" {
 		b.City = strings.TrimSpace(in.City)
 	}
@@ -197,6 +214,12 @@ func (s *Service) UpdateBusiness(ownerID string, id string, in CreateBusinessInp
 	}
 	if in.Bio != "" {
 		b.Bio = strings.TrimSpace(in.Bio)
+	}
+	if in.LogoURL != "" {
+		b.LogoURL = strings.TrimSpace(in.LogoURL)
+	}
+	if in.Hours != "" {
+		b.Hours = strings.TrimSpace(in.Hours)
 	}
 	if in.Slug != "" && strings.ToLower(in.Slug) != b.Slug {
 		slug := strings.ToLower(strings.TrimSpace(in.Slug))

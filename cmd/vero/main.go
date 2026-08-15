@@ -19,6 +19,13 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+	supabaseURL := os.Getenv("SUPABASE_URL")
+	supabaseKey := os.Getenv("SUPABASE_KEY")
+	if supabaseURL != "" && supabaseKey != "" {
+		log.Printf("🚀 Vero con SUPABASE: %s", supabaseURL)
+	} else {
+		log.Printf("⚠️ SUPABASE_URL/KEY no configurados — usando almacenamiento local")
+	}
 	dataDir := os.Getenv("VERO_DATA_DIR")
 	if dataDir == "" {
 		dataDir = "vero_data"
@@ -37,9 +44,9 @@ func main() {
 	}
 
 	addr := ":" + port
-	fmt.Printf("Vero listening on %s (data: %s)\n", addr, dataDir)
-	fmt.Printf("  App:     http://localhost%s/\n", addr)
-	fmt.Printf("  Profile: http://localhost%s/z/<slug>\n", addr)
+	log.Printf("✅ Vero listening on %s (data: %s)", addr, dataDir)
+	log.Printf(" App: http://localhost%s/", addr)
+	log.Printf(" Profile: http://localhost%s/z/<slug>", addr)
 	log.Fatal(http.ListenAndServe(addr, mux))
 }
 
@@ -52,6 +59,7 @@ func (h *handlers) mount(mux *http.ServeMux) {
 	mux.HandleFunc("/api/vero/auth/login", h.login)
 	mux.HandleFunc("/api/vero/auth/logout", h.logout)
 	mux.HandleFunc("/api/vero/auth/me", h.me)
+	mux.HandleFunc("/api/vero/account", h.deleteAccount)
 	mux.HandleFunc("/api/vero/businesses", h.businesses)
 	mux.HandleFunc("/api/vero/businesses/", h.businessByID)
 	mux.HandleFunc("/api/vero/public/", h.publicAPI)
@@ -171,6 +179,23 @@ func (h *handlers) me(w http.ResponseWriter, r *http.Request) {
 		"session":    sess,
 		"businesses": h.svc.Store().ListByOwner(sess.UserID),
 	})
+}
+
+func (h *handlers) deleteAccount(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodDelete {
+		writeJSON(w, 405, map[string]string{"error": "method not allowed"})
+		return
+	}
+	sess, code, msg := h.session(r)
+	if code != 0 {
+		writeJSON(w, code, map[string]string{"error": msg})
+		return
+	}
+	if err := h.svc.DeleteAccount(sess.UserID, sess.Token); err != nil {
+		writeJSON(w, 400, map[string]string{"error": err.Error()})
+		return
+	}
+	writeJSON(w, 200, map[string]string{"status": "deleted"})
 }
 
 func (h *handlers) businesses(w http.ResponseWriter, r *http.Request) {

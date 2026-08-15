@@ -38,11 +38,7 @@ func NewStore(dataDir string) *Store {
 		stats:    map[string]Stats{},
 	}
 	s.load()
-	// Prefer durable Gist snapshot when configured (GITHUB_TOKEN)
-	if idBytes, err := os.ReadFile(filepath.Join(dir, "gist_id.txt")); err == nil && os.Getenv("VERO_GIST_ID") == "" {
-		_ = os.Setenv("VERO_GIST_ID", string(idBytes))
-	}
-	s.loadFromGist()
+	// Gist disabled — use Supabase when SUPABASE_URL is set (see main)
 	return s
 }
 
@@ -77,8 +73,6 @@ func (s *Store) saveJSON(name string, v interface{}) error {
 	if err := os.WriteFile(s.path(name), b, 0600); err != nil {
 		return err
 	}
-	// async durable copy
-	go s.saveToGist()
 	return nil
 }
 
@@ -180,6 +174,42 @@ func (s *Store) ListByOwner(userID string) []Business {
 		}
 	}
 	return out
+}
+
+func (s *Store) DeleteBusiness(id string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if b, ok := s.byID[id]; ok {
+		delete(s.bySlug, strings.ToLower(b.Slug))
+		delete(s.byID, id)
+		delete(s.products, id)
+		delete(s.reviews, id)
+		delete(s.stats, id)
+		_ = s.saveJSON("businesses.json", s.byID)
+		_ = s.saveJSON("products.json", s.products)
+		_ = s.saveJSON("reviews.json", s.reviews)
+		_ = s.saveJSON("stats.json", s.stats)
+	}
+	return nil
+}
+
+func (s *Store) DeleteUser(userID string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for email, u := range s.users {
+		if u.ID == userID {
+			delete(s.users, email)
+			break
+		}
+	}
+	for tok, sess := range s.sessions {
+		if sess.UserID == userID {
+			delete(s.sessions, tok)
+		}
+	}
+	_ = s.saveJSON("users.json", s.users)
+	_ = s.saveJSON("sessions.json", s.sessions)
+	return nil
 }
 
 func (s *Store) SetProducts(businessID string, list []Product) error {

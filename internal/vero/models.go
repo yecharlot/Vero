@@ -12,6 +12,7 @@ type Business struct {
 	Phone              string    `json:"phone,omitempty"`
 	WhatsApp           string    `json:"whatsapp,omitempty"`
 	Category           string    `json:"category,omitempty"`
+	Country            string    `json:"country,omitempty"`
 	City               string    `json:"city,omitempty"`
 	Zone               string    `json:"zone,omitempty"`
 	Bio                string    `json:"bio,omitempty"`

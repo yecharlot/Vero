@@ -134,7 +134,34 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
       <label>Enlace corto</label><input id="bSlug" placeholder="abc-combos" oninput="updateProg()"/>
       <label>WhatsApp (código país)</label><input id="bWa" placeholder="5351234567" oninput="updateProg()"/>
       <label>Categoría</label><input id="bCat" placeholder="Comida / Combos"/>
-      <label>Ciudad</label><input id="bCity" placeholder="La Habana"/>
+      <label>País</label>
+      <select id="bCountry">
+        <option value="">Selecciona país</option>
+        <option>Cuba</option><option>México</option><option>Colombia</option>
+        <option>Argentina</option><option>Chile</option><option>Perú</option>
+        <option>Venezuela</option><option>España</option><option>Estados Unidos</option>
+      </select>
+      <label>Ciudad</label>
+      <select id="bCity">
+        <option value="">Selecciona ciudad</option>
+        <option>La Habana</option><option>Ciudad de México</option><option>Bogotá</option>
+        <option>Buenos Aires</option><option>Santiago</option><option>Lima</option>
+        <option>Caracas</option><option>Madrid</option><option>Miami</option>
+      </select>
+      <label>Zona / Barrio</label>
+      <select id="bZone">
+        <option value="">Selecciona zona</option>
+        <option>Centro</option><option>Norte</option><option>Sur</option>
+        <option>Este</option><option>Oeste</option><option>Playa</option>
+        <option>Miramar</option><option>Vedado</option><option>Old Havana</option>
+      </select>
+      <label>Horario</label><input id="bHours" placeholder="Lun-Sáb 9:00-18:00"/>
+      <label>Logo / foto de perfil</label>
+      <div class="upload" id="logoBox">
+        <input type="file" id="bLogo" accept="image/*" onchange="onLogo(event)"/>
+        <span id="logoHint">Toca para subir logo (se comprime)</span>
+        <img id="logoPrev" style="display:none;max-width:80px;max-height:80px;border-radius:12px;margin-top:.5rem"/>
+      </div>
       <label>Bio corta</label><textarea id="bBio" rows="2" placeholder="Qué ofreces en una frase"></textarea>
       <button class="btn btn-primary" style="margin-top:.9rem" onclick="createBiz()">Publicar y obtener mi link</button>
       <div class="err" id="bizErr"></div>
@@ -152,6 +179,7 @@ label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-s
         </div>
         <div class="qr-box hidden" id="qrBox"><img id="qrImg" alt="QR"/><p class="muted">Escanea para abrir este Vero</p></div>
         <p class="fab-hint">Comparte hoy: cada visita y cada clic a WhatsApp se miden aquí.</p>
+        <button class="btn btn-ghost" style="margin-top:1rem;color:var(--danger);border-color:rgba(251,113,133,.3)" onclick="deleteAccount()">Eliminar mi negocio y cuenta</button>
       </div>
       <div class="card">
         <h2>Tu tracción</h2>
@@ -238,6 +266,12 @@ async function doLogin(){
   token=res.data.token;localStorage.setItem(SK,token);toast('Bienvenido de nuevo');enterApp();
 }
 async function logout(){await j('/api/vero/auth/logout',{method:'POST'});token='';localStorage.removeItem(SK);biz=null;location.hash='';route()}
+async function deleteAccount(){
+  if(!confirm('¿Eliminar tu negocio y cuenta de forma permanente? Esta acción no se puede deshacer.'))return;
+  const res=await j('/api/vero/account',{method:'DELETE'});
+  if(!res.ok){toast(res.data.error||'Error al eliminar');return}
+  token='';localStorage.removeItem(SK);biz=null;toast('Cuenta eliminada');location.hash='';route();
+}
 async function enterApp(){
   const res=await j('/api/vero/auth/me');
   if(!res.ok){token='';localStorage.removeItem(SK);route();return}
@@ -252,9 +286,25 @@ function showOwner(){
   publicLink.textContent=location.origin+'/z/'+biz.slug;
   loadStats();loadProducts();
 }
+let logoData='';
+async function onLogo(e){
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  if(!f.type.startsWith('image/')){toast('Solo imágenes');return}
+  try{
+    logoData=await compressImage(f,400,0.7);
+    const prev=document.getElementById('logoPrev');
+    prev.src=logoData;prev.style.display='block';
+    document.getElementById('logoHint').textContent='Logo listo';
+    toast('Logo listo');
+  }catch(err){toast('No se pudo procesar el logo')}
+}
 async function createBiz(){
   bizErr.textContent='';
-  const body={name:bName.value,slug:bSlug.value,whatsapp:bWa.value,phone:bWa.value,category:bCat.value,city:bCity.value,bio:bBio.value};
+  const body={
+    name:bName.value,slug:bSlug.value,whatsapp:bWa.value,phone:bWa.value,
+    category:bCat.value,country:bCountry.value,city:bCity.value,zone:bZone.value,
+    hours:bHours.value,bio:bBio.value,logo_url:logoData||''
+  };
   const res=await j('/api/vero/businesses',{method:'POST',body:JSON.stringify(body)});
   if(!res.ok){bizErr.textContent=res.data.error||'Error';return}
   biz=res.data;toast('Tu Vero ya está en línea');showOwner();
